@@ -1,0 +1,55 @@
+\include{settings}
+
+\addbibresource{Bibliography.bib}
+
+
+\begin{document}
+
+	
+	\frontmatter
+	
+	\include{include/title}
+	
+	\include{include/eigenstaendigkeitserklaerung}
+	
+	\include{include/abstract}
+	
+	\tableofcontents
+	
+	\cleardoublepage
+	\phantomsection\addcontentsline{toc}{chapter}{Abkürzungsverzeichnis}
+	\include{include/abkuerzungen}
+	
+	\cleardoublepage
+	\phantomsection\addcontentsline{toc}{chapter}{\listfigurename}
+	\listoffigures
+	
+	\cleardoublepage
+	\phantomsection\addcontentsline{toc}{chapter}{\listtablename}
+	\listoftables
+	
+	% \cleardoublepage
+	% \phantomsection\addcontentsline{toc}{chapter}{Quelltextverzeichnis}
+	% \lstlistoflistings
+	
+	\newcounter{anhangcounter}
+	\setcounter{anhangcounter}{\value{page}}
+	\stepcounter{anhangcounter}
+	
+	\mainmatter
+	
+	\include{include/content}
+	
+	\backmatter
+	
+	% \pagenumbering{roman}
+	\frontmatter
+
+	\setcounter{page}{\value{anhangcounter}}
+	
+	\cleardoublepage
+	\phantomsection\addcontentsline{toc}{chapter}{Literatur}
+	\printbibliography
+	
+	\include{include/anhang}	
+\end{document}

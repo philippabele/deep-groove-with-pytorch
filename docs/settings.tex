@@ -1,0 +1,64 @@
+
+\documentclass[a4paper, 12pt,oneside,toc=chapterentrywithdots]{scrbook}
+
+\usepackage[ngerman]{babel}
+\usepackage[backend=biber, style=numeric-comp]{biblatex}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[onehalfspacing]{setspace}
+\usepackage{ragged2e}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage[left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm,includeheadfoot]{geometry}
+\usepackage{acronym}
+\usepackage{nameref}
+\usepackage{appendix}
+\usepackage{eurosym}
+\usepackage[bookmarks=true, pdfborder={0 0 0}]{hyperref}
+\usepackage[figure]{hypcap}
+\usepackage{makecell}
+\usepackage{enumitem}
+\usepackage{amssymb}
+\usepackage{fancyvrb}
+\usepackage{color}
+\usepackage[dvipsnames]{xcolor}
+
+%\usepackage{scrpage2}
+%\pagestyle{scrheadings}
+%\clearscrheadfoot
+
+
+\sloppy
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.5ex plus0.0ex minus0.0ex}
+
+\renewcommand*{\arraystretch}{1.5}
+\newcommand{\kursiv}[1]{\emph{#1}}
+\renewcommand*{\headfont}{\normalfont}
+\renewcommand*\chapterheadstartvskip{\vspace*{-1.5cm}}
+\renewcommand*\chapterheadendvskip{\vspace*{0.4cm}}
+\RedeclareSectionCommands[
+beforeskip=-.1\baselineskip,
+afterskip=.25\baselineskip
+]{section,subsection,subsubsection}
+
+%\DeclareNameAlias{sortname}{last-first}
+%\DeclareNameAlias{default}{last-first}
+
+\pagestyle{headings}
+
+\let\origappendix\appendix
+\renewcommand\appendix{\clearpage\pagenumbering{roman}\setcounter{page}{\value{anhangcounter}}\origappendix}
+\makeatletter
+\renewcommand*{\@pnumwidth}{3em}
+\renewcommand*{\@tocrmarg}{7em}
+%\g@addto@macro\appendix{%
+%	\counterwithin*{lstlisting}{section}%
+%}
+\makeatother
+\clubpenalty = 10000
+\widowpenalty = 10000
+
+%Quelltextverzeichnis
+% \renewcommand{\lstlistingname}{Quelltext}
+% \renewcommand{\lstlistlistingname}{Quelltextverzeichnis}

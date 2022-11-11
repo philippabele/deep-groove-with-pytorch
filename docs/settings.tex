@@ -1,64 +1,86 @@
-
-\documentclass[a4paper, 12pt,oneside,toc=chapterentrywithdots]{scrbook}
-
+\usepackage[hyphens,spaces,obeyspaces]{url}
+\usepackage[sorting = none, backend=bibtex]{biblatex}
 \usepackage[ngerman]{babel}
-\usepackage[backend=biber, style=numeric-comp]{biblatex}
-\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage[onehalfspacing]{setspace}
-\usepackage{ragged2e}
+\usepackage[utf8]{inputenc}
+\usepackage[hidelinks]{hyperref}
 \usepackage{graphicx}
-\usepackage{tabularx}
-\usepackage[left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm,includeheadfoot]{geometry}
+\usepackage{subcaption}
+\usepackage{epstopdf}
+\usepackage{lmodern}
+\usepackage{float}
 \usepackage{acronym}
-\usepackage{nameref}
-\usepackage{appendix}
-\usepackage{eurosym}
-\usepackage[bookmarks=true, pdfborder={0 0 0}]{hyperref}
-\usepackage[figure]{hypcap}
-\usepackage{makecell}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{csquotes}
 \usepackage{enumitem}
-\usepackage{amssymb}
-\usepackage{fancyvrb}
-\usepackage{color}
-\usepackage[dvipsnames]{xcolor}
-
-%\usepackage{scrpage2}
-%\pagestyle{scrheadings}
-%\clearscrheadfoot
-
-
-\sloppy
-\setlength{\parindent}{0pt}
-\setlength{\parskip}{1.5ex plus0.0ex minus0.0ex}
-
-\renewcommand*{\arraystretch}{1.5}
-\newcommand{\kursiv}[1]{\emph{#1}}
+\usepackage{fancyhdr}
+\usepackage{url}
+\usepackage{listings}
+\usepackage[table]{xcolor}
+\usepackage{wrapfig}
+\usepackage{forest}
+\usepackage{tabularx}
+\usepackage{colortbl}
+\usepackage{booktabs}
+\usepackage[onehalfspacing]{setspace}
+\usepackage{amsmath}
+\usepackage{threeparttable}
+\usepackage[ngerman]{cleveref}
 \renewcommand*{\headfont}{\normalfont}
-\renewcommand*\chapterheadstartvskip{\vspace*{-1.5cm}}
-\renewcommand*\chapterheadendvskip{\vspace*{0.4cm}}
-\RedeclareSectionCommands[
-beforeskip=-.1\baselineskip,
-afterskip=.25\baselineskip
-]{section,subsection,subsubsection}
-
-%\DeclareNameAlias{sortname}{last-first}
-%\DeclareNameAlias{default}{last-first}
-
-\pagestyle{headings}
-
-\let\origappendix\appendix
-\renewcommand\appendix{\clearpage\pagenumbering{roman}\setcounter{page}{\value{anhangcounter}}\origappendix}
+\renewcommand*{\multicitedelim}{\addsemicolon\space}
+\renewcommand*{\headrulewidth}{0pt}
+\renewcommand*{\arraystretch}{1.5}
+\setlength{\parskip}{1.5ex}
 \makeatletter
-\renewcommand*{\@pnumwidth}{3em}
-\renewcommand*{\@tocrmarg}{7em}
-%\g@addto@macro\appendix{%
-%	\counterwithin*{lstlisting}{section}%
-%}
-\makeatother
-\clubpenalty = 10000
-\widowpenalty = 10000
+% define new boolean conditional switch for whether
+% the abstract is being typeset
+\newif\ifabstract
+% redefine `\chapter` so it only starts a new page if not typesetting
+% the abstract; sets abstract conditional to false after doing so
+\renewcommand\chapter{\ifabstract\relax\else%
+	\if@openright\cleardoublepage\else\clearpage\fi%
+	\fi
+	\abstractfalse%
+	\thispagestyle{plain}%
+	\global\@topnum\z@
+	\@afterindentfalse
+	\secdef\@chapter\@schapter}
 
-%Quelltextverzeichnis
-% \renewcommand{\lstlistingname}{Quelltext}
-% \renewcommand{\lstlistlistingname}{Quelltextverzeichnis}
+% command for putting the title and name above the abstract; switches
+% abstact boolean to true for next `\chapter*` command...
+\newcommand{\conclusion}{
+	\if@openright\cleardoublepage\else\clearpage\fi
+		\begin{center}
+			\textbf{\larger{Zusammenfassung}}\par
+			\emph{Hier kommt nach der Fertigstellung der Arbeit noch eine Zusammenfassung der Arbeit mit ein oder mehreren Sätzen hin. Hier kommt nach der Fertigstellung der Arbeit noch eine Zusammenfassung der Arbeit mit ein oder mehreren Sätzen hin. Hier kommt nach der Fertigstellung der Arbeit noch eine Zusammenfassung der Arbeit mit ein oder mehreren Sätzen hin2. }\par
+		\end{center}
+
+	\abstracttrue}
+\makeatother
+\lstset
+{
+         basicstyle=\footnotesize\ttfamily,
+         numbers=left,               	% Ort der Zeilennummern
+         numberstyle=\tiny,          	% Stil der Zeilennummern
+%         stepnumber=2,               	% Abstand zwischen den Zeilennummern
+         numbersep=5pt,              	% Abstand der Nummern zum Text
+         tabsize=2,                  	% Groesse von Tabs
+         extendedchars=true,
+         breaklines=true,            	% Zeilen werden Umgebrochen
+         keywordstyle=\color{red},
+            frame=b,
+ %        keywordstyle=[1]\textbf,    	% Stil der Keywords
+ %        keywordstyle=[2]\textbf,
+ %        keywordstyle=[3]\textbf,
+ %        keywordstyle=[4]\textbf, \sqrt{\sqrt{}}
+         stringstyle=\color{white}\ttfamily,
+         showspaces=false,
+         showtabs=false,
+         xleftmargin=27pt,
+         framexleftmargin=27pt,
+         framexrightmargin=5pt,
+         framexbottommargin=4pt,
+%         backgroundcolor=\color{lightgray},
+         showstringspaces=false      	% Leerzeichen in Strings anzeigen ?
+}

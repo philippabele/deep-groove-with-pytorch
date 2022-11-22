@@ -29,4 +29,4 @@ main-blx.bib
 #pytorch data folder
 
 /doc/
-tutorial/pytorch/data/*
+**/data/*

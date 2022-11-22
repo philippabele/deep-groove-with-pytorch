@@ -1,3 +1,5 @@
+#LaTeX
+
 *.aux 
 *.bit 
 *.blg 
@@ -23,3 +25,7 @@ main.synctex.gz
 main.run.xml
 main-blx.bib
 *.bcf
+
+#pytorch data folder
+
+/doc/

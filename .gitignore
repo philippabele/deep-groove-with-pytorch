@@ -26,10 +26,11 @@ main.run.xml
 main-blx.bib
 *.bcf
 
-#pytorch data folder
+# pytorch data folder
 /doc/
+**/venv/
 **/data/*
 
-# Tutoprials
+# python
 
-*/tutorial/
+# Tutoprials

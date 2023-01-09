@@ -18,18 +18,18 @@
 *.svn 
 *.toc
 
-
 main.pdf
 main.synctex.gz
 main.run.xml
 main-blx.bib
 *.bcf
 
-# Project
+# IDE
 /deep_groove_project/.idea/
 
 # Python
 /deep_groove_project/venv/
+/deep_groove_project/__pycache__/
 
-# Tutoprials
+# Datafolder
 **/data/*

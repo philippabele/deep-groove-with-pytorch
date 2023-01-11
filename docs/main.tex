@@ -94,26 +94,44 @@
 		\section{First Steps with a Dataset}
 			\noindent A dataset is provided with three values. It has data of an shaft-bearing-system loaded with rotational force and rotations per minute and a third value, which is the lifetime in hours.
 			
-			\begin{figure} [H]
+			\begin{figure}[H]
 				\centering
-				\resizebox{\linewidth} {!} {
-					\includegraphics{res/firstEDA/df_info.png}
-					\includegraphics{res/firstEDA/df_head.png}
-				}
-				\caption{\textit{df.info()} on the right and first five elements of the data frame}
-				\label{fig:firstEDA_Table}
+				\begin{minipage}[b]{0.4\textwidth}
+					\resizebox{\linewidth} {!} {
+						\includegraphics{res/firstEDA/df_info.png}
+					}	
+					\caption{df.info()}
+					\label{fig:EDA_info}
+				\end{minipage}
+				\hfill
+				\begin{minipage}[b]{0.4\textwidth}
+					\resizebox{\linewidth} {!} {
+						\includegraphics{res/firstEDA/df_head.png}
+					}	
+					\caption{First 5 Datapoints in the table}
+					\label{fig:EDA_head}
+				\end{minipage}
 			\end{figure}
 			
-			\noindent After showing the info of the data and getting an general feel for the dataset, we can see how the data points are related to each other with the same techniques from Chapter \ref{EDA}. We create a chart for every feature of a datapoint and get the charts in picture \ref{fig:firstEDA_crosstable} on the left. the charts where we use \textit{Fr} and \textit{n} aren't correlated at all. In a more zoomed in we can se that the points are evenly distributed. This makes sense if the data is a systematic test, with the changing parameters of rotation n and radial Force Fr. On the right of picture \ref{fig:firstEDA_crosstable} there is a 3D scatter of the datapoints with n and Fr on the x and y axis and the Lifetime on the z axis. It shows a better Picture of the data were the equal distributed points show a good visible plane. The lifetime increases rapidly when n and Fr go towards zero and shrink exponential when one of both parameters are increased.
+			\noindent After showing the info of the data and getting an general feel for the dataset, we can see how the data points are related to each other with the same techniques from Chapter \ref{EDA}. We create a chart for every feature of a datapoint and get the charts in picture \ref{fig:EDA_crossplot}. the charts where we use \textit{Fr} and \textit{n} aren't correlated at all. In a more zoomed in we can se that the points are evenly distributed. This makes sense if the data is a systematic test, with the changing parameters of rotation n and radial Force Fr. In picture \ref{fig:EDA_3Dscatter} there is a 3D scatter of the datapoints with n and Fr on the x and y axis and the Lifetime on the z axis. It shows a better Picture of the data were the equal distributed points show a good visible plane. The lifetime increases rapidly when n and Fr go towards zero and shrink exponential when one of both parameters are increased.
 	
-			\begin{figure} [H]
+			\begin{figure}[H]
 				\centering
-				\resizebox{\linewidth} {!} {
-					\includegraphics{res/firstEDA/crosschart.png}
-					\includegraphics{res/firstEDA/3dscatter.png}
-				}
-				\caption{\textit{df.info()} on the right and first five elements of the data frame}
-				\label{fig:firstEDA_crosstable}
+				\begin{minipage}[b]{1\textwidth}
+					\resizebox{\linewidth} {!} {
+						\includegraphics{res/firstEDA/crosschart.png}
+					}	
+					\caption{All Datafields plotted against each other}
+					\label{fig:EDA_crossplot}
+				\end{minipage}
+				\hfill
+				\begin{minipage}[b]{1\textwidth}
+					\resizebox{\linewidth} {!} {
+						\includegraphics{res/firstEDA/3dscatter.png}
+					}
+					\caption{3D scatter of the Dataset}
+					\label{fig:EDA_3Dscatter}
+				\end{minipage}
 			\end{figure}
 	
 	\chapter{Implementation}

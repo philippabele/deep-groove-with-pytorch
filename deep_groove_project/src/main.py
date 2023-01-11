@@ -7,7 +7,7 @@ import pandas as pd
 def main():
     df = pd.read_csv("../data/first_dataset.csv")
     show_standard_info(df)
-    # show_correlation_grafs(df)
+    show_correlation_grafs(df)
     show_3d_scatter(df)
 
 
@@ -51,4 +51,3 @@ def show_3d_scatter(df):
 
 if __name__ == "__main__":
     main()
-    input("press to end: ")

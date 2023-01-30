@@ -1,5 +1,4 @@
 #LaTeX
-
 *.aux 
 *.bit 
 *.blg 
@@ -19,18 +18,18 @@
 *.svn 
 *.toc
 
-
 main.pdf
 main.synctex.gz
 main.run.xml
 main-blx.bib
 *.bcf
 
-# pytorch data folder
-/doc/
-**/venv/
+# IDE
+/deep_groove_project/.idea/
+
+# Python
+/deep_groove_project/venv/
+/deep_groove_project/__pycache__/
+
+# Datafolder
 **/data/*
-
-# python
-
-# Tutoprials

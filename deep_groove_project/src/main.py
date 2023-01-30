@@ -23,6 +23,7 @@ def main():
     dataframe['Label'].where(dataframe['Lifetime'] <= 8760*2, 2, inplace=True)
     dataframe['Label'].where(dataframe['Lifetime'] <= 8760*3, 3, inplace=True)
     dataframe['Label'].where(dataframe['Lifetime'] <= 8760*4, 4, inplace=True)
+    dataframe['Label'].where(dataframe['Lifetime'] <= 8760*4, 5, inplace=True)
 
     print(dataframe.head())
     # Creating custom Dataset
@@ -46,10 +47,10 @@ def main():
     learning_rate = 1e-7
     print(f"LR:  {learning_rate}")
 
-    loss_fn = nn.NLLLoss()
+    loss_fn = nn.CrossEntropyLoss()
     optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
 
-    epochs = 100
+    epochs = 200
 
     accuracy, avg_loss = [], []
     for e in range(epochs):

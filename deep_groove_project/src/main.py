@@ -1,5 +1,6 @@
 import torch
 import pandas as pd
+import numpy as np
 from torch import nn
 from torch.utils.data import DataLoader
 from src.FeatureDataset import FeatureDataset
@@ -13,9 +14,17 @@ def main():
     #  Loading and preparing Dataframe
     dataframe = pd.read_csv("../data/first_dataset.csv")
 
-    dataframe['Lifetime'].where(dataframe['Lifetime'] >= 8760, 1, inplace=True)
-    dataframe['Lifetime'].where(dataframe['Lifetime'] < 8760, 0, inplace=True)
+    # shuffle Dataframe
+    dataframe = dataframe.sample(frac=1)
 
+    print(dataframe.head())
+    dataframe['Label'] = 0
+    dataframe['Label'].where(dataframe['Lifetime'] <= 8760, 1, inplace=True)
+    dataframe['Label'].where(dataframe['Lifetime'] <= 8760*2, 2, inplace=True)
+    dataframe['Label'].where(dataframe['Lifetime'] <= 8760*3, 3, inplace=True)
+    dataframe['Label'].where(dataframe['Lifetime'] <= 8760*4, 4, inplace=True)
+
+    print(dataframe.head())
     # Creating custom Dataset
     train_dataset = FeatureDataset(dataframe[:int(len(dataframe)/2)])
     test_dataset = FeatureDataset(dataframe[int(len(dataframe)/2):])
@@ -23,7 +32,7 @@ def main():
     print(f"length of Datasets - training: {len(train_dataset)}, test: {len(test_dataset)}")
 
     # Parameters
-    params = {'batch_size': 20,
+    params = {'batch_size': 10,
               'shuffle': True}
 
     # Creating the Dataloaders
@@ -34,11 +43,13 @@ def main():
         print(f"Batch: {batch[0]}")
         break
 
-    learning_rate = 1e-3
+    learning_rate = 1e-6
+    print(f"LR:  {learning_rate}")
+
     loss_fn = nn.NLLLoss()
     optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
 
-    epochs = 5
+    epochs = 10
     for e in range(epochs):
         print(f"Epoch {e + 1}\n-------------------------------")
         train_loop(train_dataloader, model, loss_fn, optimizer)
@@ -50,8 +61,6 @@ def train_loop(dataloader, model, loss_fn, optimizer):
     size = len(dataloader.dataset)
     for batch, (X, y) in enumerate(dataloader):
         # Compute prediction and loss
-        # print(f"X: {X.dtype}")
-        # print(f"y: {y.dtype}")
         pred = model(X)
         loss = loss_fn(pred, y)
 
@@ -60,9 +69,9 @@ def train_loop(dataloader, model, loss_fn, optimizer):
         loss.backward()
         optimizer.step()
 
-        if batch % 100 == 0:
+        if batch % 10 == 0:
             loss, current = loss.item(), batch * len(X)
-            print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
+            print(f"loss: {loss:>7f}  [{current:>4d}/{size:>4d}]")
 
 
 def test_loop(dataloader, model, loss_fn):

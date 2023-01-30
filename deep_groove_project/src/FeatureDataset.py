@@ -7,17 +7,14 @@ class FeatureDataset:
 
     def __init__(self, dataframe):
 
-        x = dataframe.iloc[:, 0:2].values
-        y = dataframe.iloc[:, 2].values
+        x = dataframe.iloc[1:, 0:2].values
+        y = dataframe.iloc[1:, 2].values
 
-        self.sample = torch.tensor(x)
-        self.label = torch.tensor(y)
+        self.sample = torch.tensor(x, dtype=torch.float32)
+        self.label = torch.tensor(y, dtype=torch.int64)
 
     def __len__(self):
         return len(self.label)
 
     def __getitem__(self, index):
-        return {
-            "sample": self.sample[index, :],
-            "label": self.label[index]
-        }
+        return self.sample[index, :], self.label[index]

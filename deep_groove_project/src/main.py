@@ -23,7 +23,7 @@ def main():
     print(f"length of Datasets - training: {len(train_dataset)}, test: {len(test_dataset)}")
 
     # Parameters
-    params = {'batch_size': 4,
+    params = {'batch_size': 20,
               'shuffle': True}
 
     # Creating the Dataloaders
@@ -31,7 +31,7 @@ def main():
     test_dataloader = DataLoader(test_dataset, **params)
 
     for batch in train_dataloader:
-        print(f"Batch: {batch['sample']}")
+        print(f"Batch: {batch[0]}")
         break
 
     learning_rate = 1e-3
@@ -48,10 +48,12 @@ def main():
 
 def train_loop(dataloader, model, loss_fn, optimizer):
     size = len(dataloader.dataset)
-    for batch in dataloader:
+    for batch, (X, y) in enumerate(dataloader):
         # Compute prediction and loss
-        pred = model(batch['sample'])
-        loss = loss_fn(pred, batch['label'])
+        # print(f"X: {X.dtype}")
+        # print(f"y: {y.dtype}")
+        pred = model(X)
+        loss = loss_fn(pred, y)
 
         # Backpropagation
         optimizer.zero_grad()
@@ -59,7 +61,7 @@ def train_loop(dataloader, model, loss_fn, optimizer):
         optimizer.step()
 
         if batch % 100 == 0:
-            loss, current = loss.item(), batch * len(batch['sample'])
+            loss, current = loss.item(), batch * len(X)
             print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
 
 

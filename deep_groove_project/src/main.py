@@ -43,13 +43,13 @@ def main():
         print(f"Batch: {batch[0]}")
         break
 
-    learning_rate = 1e-6
+    learning_rate = 1e-7
     print(f"LR:  {learning_rate}")
 
     loss_fn = nn.NLLLoss()
     optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
 
-    epochs = 10
+    epochs = 100
     for e in range(epochs):
         print(f"Epoch {e + 1}\n-------------------------------")
         train_loop(train_dataloader, model, loss_fn, optimizer)

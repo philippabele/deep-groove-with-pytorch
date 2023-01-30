@@ -1,10 +1,10 @@
 import torch
 import pandas as pd
-import numpy as np
 from torch import nn
 from torch.utils.data import DataLoader
 from src.FeatureDataset import FeatureDataset
 from src.NeuralNetwork import NeuralNetwork
+import matplotlib.pyplot as plt
 
 def main():
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -50,11 +50,21 @@ def main():
     optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
 
     epochs = 100
+
+    accuracy, avg_loss = [], []
     for e in range(epochs):
         print(f"Epoch {e + 1}\n-------------------------------")
         train_loop(train_dataloader, model, loss_fn, optimizer)
-        test_loop(test_dataloader, model, loss_fn)
+        test_loop(test_dataloader, model, loss_fn, [accuracy, avg_loss])
     print("Done!")
+    plt.plot(accuracy)
+    plt.xlabel("Epoch")
+    plt.ylabel("Accuracy in %")
+    plt.show()
+    plt.plot(avg_loss)
+    plt.xlabel("Epoch")
+    plt.ylabel("AVG Loss")
+    plt.show()
 
 
 def train_loop(dataloader, model, loss_fn, optimizer):
@@ -74,7 +84,7 @@ def train_loop(dataloader, model, loss_fn, optimizer):
             print(f"loss: {loss:>7f}  [{current:>4d}/{size:>4d}]")
 
 
-def test_loop(dataloader, model, loss_fn):
+def test_loop(dataloader, model, loss_fn, charts):
     size = len(dataloader.dataset)
     num_batches = len(dataloader)
     test_loss, correct = 0, 0
@@ -88,7 +98,8 @@ def test_loop(dataloader, model, loss_fn):
     test_loss /= num_batches
     correct /= size
     print(f"Test Error: \n Accuracy: {(100 * correct):>0.1f}%, Avg loss: {test_loss:>8f} \n")
-
+    charts[0].append((100 * correct))
+    charts[1].append(test_loss)
 
 if __name__ == '__main__':
     main()

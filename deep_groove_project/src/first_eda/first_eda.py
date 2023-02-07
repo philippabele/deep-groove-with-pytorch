@@ -5,7 +5,7 @@ import pandas as pd
 
 
 def main():
-    df = pd.read_csv("../../data/first_dataset.csv")
+    df = pd.read_csv("../../data/dataset1.csv")
     show_standard_info(df)
     show_correlation_grafs(df)
     show_3d_scatter(df)

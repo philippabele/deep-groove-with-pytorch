@@ -12,7 +12,7 @@ def main():
     print(model)
 
     #  Loading and preparing Dataframe
-    dataframe = pd.read_csv("../data/first_dataset.csv")
+    dataframe = pd.read_csv("../dataset/first_dataset.csv")
 
     # shuffle Dataframe
     dataframe = dataframe.sample(frac=1)

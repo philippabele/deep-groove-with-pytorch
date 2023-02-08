@@ -30,6 +30,7 @@ main-blx.bib
 # Python
 /deep_groove_project/venv/
 /deep_groove_project/__pycache__/
+*.pyc
 
 # Datafolder
 **/data/*

@@ -40,7 +40,7 @@
 				\label{fig:statistical_description}
 			\end{figure}
 		
-			\noindent To visualize these statistical Properties we can use a Box-Plot. In \ref{fig:boxplot} is the standard rating column of the data visualized. This method can also applied on all columns with a metric datatype. So we could do the same with the other rating fields and the year of birth, but the id doesn't make sense because it is an nominal field. 
+			\noindent To visualize these statistical Properties we can use a Box-Plot. In \ref{fig:boxplot} is the standard rating column of the data visualized. This method can also applied on all columns with a metric datatype. So we could do the same with the other rating fields and the year of birth, but the id doesn't make sense because it is a nominal field. 
 			
 			\begin{figure} [H]
 				\centering
@@ -93,7 +93,7 @@
 	\chapter{Application}
 		\section{First Steps with a Dataset}
 			\subsection{Exploratory Data Analysis}
-			\noindent A dataset is provided with three values. It has data of an shaft-bearing-system loaded with rotational force and rotations per minute and a third value, which is the lifetime in hours.
+			\noindent A dataset is provided with three values. It has data of a shaft-bearing-system loaded with rotational force and rotations per minute and a third value, which is the lifetime in hours.
 			
 			\begin{figure}[H]
 				\centering
@@ -114,7 +114,7 @@
 				\end{minipage}
 			\end{figure}
 			
-			\noindent After showing the info of the data and getting an general feel for the data set, we can see how the data points are related to each other with the same techniques from Chapter \ref{EDA}. We create a chart for every feature of a data point and get the charts in picture \ref{fig:EDA_crossplot}. the charts where we use \textit{Fr} and \textit{n} aren't correlated at all. In a more zoomed in we can se that the points are evenly distributed. This makes sense if the data is a systematic test, with the changing parameters of rotation n and radial Force Fr. In picture \ref{fig:EDA_3Dscatter} there is a 3D scatter of the data points with n and Fr on the x and y axis and the Lifetime on the z axis. It shows a better Picture of the data were the equal distributed points show a good visible plane. The lifetime increases rapidly when n and Fr go towards zero and shrink exponential when one of both parameters are increased.
+			\noindent After showing the info of the data and getting a general feel for the data set, we can see how the data points are related to each other with the same techniques from Chapter \ref{EDA}. We create a chart for every feature of a data point and get the charts in picture \ref{fig:EDA_crossplot}. the charts where we use \textit{Fr} and \textit{n} aren't correlated at all. In a more zoomed in we can se that the points are evenly distributed. This makes sense if the data is a systematic test, with the changing parameters of rotation n and radial Force Fr. In picture \ref{fig:EDA_3Dscatter} there is a 3D scatter of the data points with n and Fr on the x and y axis and the Lifetime on the z axis. It shows a better Picture of the data were the equal distributed points show a good visible plane. The lifetime increases rapidly when n and Fr go towards zero and shrink exponential when one of both parameters are increased.
 	
 			\begin{figure}[H]
 				\centering
@@ -135,7 +135,7 @@
 				\end{minipage}
 			\end{figure}
 			\subsection{first Machine Learning Model}
-				\noindent After the analytic exploration of the data set, we can train our first machine learning model on the data. My goal is to use the Rotation n and the Force Fr as input and get the Years of Life as the output. For this we first need to load the data from the csv and create an feature data class out of it, with which the machine learning model can work with. For this I implemented the \texttt{FeatureDataclass} to hold the test and training data. In Picture \ref{fig:FeatureDataclass} is the Code for this class. In the Constructor of the class the given data frame is cut into the input and output values and saved into \texttt{self.sample} and \texttt{self.label}. Beside the Constructor also \texttt{\_\_len\_\_} and \texttt{\_\_getitem\_\_} is added. These methods return the length of the data set or the element at the given index.
+				\noindent After the analytic exploration of the data set, we can train our first machine learning model on the data. My goal is to use the Rotation n and the Force Fr as input and get the Years of Life as the output. For this we first need to load the data from the csv and create a feature data class out of it, with which the machine learning model can work with. For this I implemented the \texttt{FeatureDataclass} to hold the test and training data. In Picture \ref{fig:FeatureDataclass} is the Code for this class. In the Constructor of the class the given data frame is cut into the input and output values and saved into \texttt{self.sample} and \texttt{self.label}. Beside the Constructor also \texttt{\_\_len\_\_} and \texttt{\_\_getitem\_\_} is added. These methods return the length of the data set or the element at the given index.
 				
 				\begin{figure} [H]
 					\centering
@@ -147,9 +147,9 @@
 					\label{fig:FeatureDataclass}
 				\end{figure}
 				
-				\noindent In the main class the Lifetime column in the data is classified into years. This is achieved by converting the hours to years and rounding down. After the data is as it need to be, two FeatureDataset object are created. One to train the model on and the other to test it. To feed the data to the model, it needs to get divided into small batches. Data loaders provide this functionality so one for the testing- and for the training data are created. I used a batch size of 10 after some testing because it fitted very well with the overall size of the data set.
+				\noindent In the main class the Lifetime column in the data is classified into years. This is achieved by converting the hours to years and rounding down. After the data is as it need to be, two FeatureDataset objects are created. One to train the model on and the other to test it. To feed the data to the model, it needs to get divided into small batches. Data loaders provide this functionality so one for the testing- and for the training data are created. I used a batch size of 10 after some testing because it fitted very well with the overall size of the data set.
 				
-				\noindent Before the training can start, a Model must be created. I decided I want to keep the Network simple so I only used two ReLU-Layers with 10 nodes each. The Input layer has two nodes, corresponding with the two input variables. The Export layer has 6 Nodes, each representing one class of the labels. In Picture \ref{fig:layer_first} the layers are shown. 
+				\noindent Before the training can start, a Model must be created. I decided I want to keep the Network simple, so I only used two ReLU-Layers with 10 nodes each. The Input layer has two nodes, corresponding with the two input variables. The Export layer has 6 Nodes, each representing one class of the labels. In Picture \ref{fig:layer_first} the layers are shown. 
 				
 				\begin{figure} [H]
 					\centering
@@ -161,9 +161,9 @@
 					\label{fig:layer_first}
 				\end{figure}
 			
-				\noindent The parameters for this program is an learning rate of $1 * 10^{-7}$, the amount the model modifies its weights an biases. I tried different epochs, how often the optimization loop is done, and stick with 200 because it fits well with the learning rate. After all the parameters are set, the training can begin. 
+				\noindent The parameters for this program is a learning rate of $1 * 10^{-7}$, the amount the model modifies its weights an biases. I tried different epochs, how often the optimization loop is done, and stick with 200 because it fits well with the learning rate. After all the parameters are set, the training can begin. 
 				
-				\noindent In every epoch the program does an training and a testing loop. In the training loop the model gets trained on the data. The model gets small batches of data from the data loader and optimizes its weights and biases every step using the optimizer function. In this case I use an cross entropy loss function. It uses the probability output of the model to determine a distance to the desired output and adjusts the weights in every iteration. This function is well suited to classification problems. After the model is trained, it gets tested on the testing data. Here the program does not modify its weights anymore and just computes an loss and an accuracy of the model. This Values describe the difference between the models prediction and the test data. The lower the loss, the better. The higher the accuracy, the better. 
+				\noindent In every epoch the program does a training and a testing loop. In the training loop the model gets trained on the data. The model gets small batches of data from the data loader and optimizes its weights and biases every step using the optimizer function. In this case I use a cross entropy loss function. It uses the probability output of the model to determine a distance to the desired output and adjusts the weights in every iteration. This function is well suited to classification problems. After the model is trained, it gets tested on the testing data. Here the program does not modify its weights anymore and just computes the loss and accuracy of the model. This Values describe the difference between the models prediction and the test data. The lower the loss, the better. The higher the accuracy, the better. 
 				
 				\noindent after all the epochs are done, the accuracy and loss values are plotted on a diagram using \texttt{matplotlib}. In Picture \ref{fig:lossAndAccuracy} these diagrams are shown after an training of 200 epochs.
 				

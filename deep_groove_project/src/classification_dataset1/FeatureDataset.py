@@ -18,4 +18,3 @@ class FeatureDataset:
 
     def __getitem__(self, index):
         return self.sample[index, :], self.label[index]
-

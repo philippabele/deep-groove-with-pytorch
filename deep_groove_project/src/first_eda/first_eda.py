@@ -2,10 +2,11 @@ import torch
 import altair as alt
 import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
 
 
 def main():
-    df = pd.read_csv("../../data/dataset1.csv")
+    df = pd.read_csv("../../dataset/dataset1.csv")
     show_standard_info(df)
     show_correlation_grafs(df)
     show_3d_scatter(df)
@@ -42,10 +43,10 @@ def show_3d_scatter(df):
     n = df.iloc[:, 1]
     lifetime = df.iloc[:, 2]
 
-    ax.scatter(fr, n, lifetime)
+    ax.scatter(fr, n, np.log(lifetime))
     ax.set_xlabel('Fr')
     ax.set_ylabel('n')
-    ax.set_zlabel('Lifetime')
+    ax.set_zlabel('log(Lifetime)')
     plt.show()
 
 

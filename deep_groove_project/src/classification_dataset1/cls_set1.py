@@ -7,7 +7,7 @@ from classification_dataset1.NeuralNetwork import NeuralNetwork
 import matplotlib.pyplot as plt
 
 
-def cls_set1():
+def cls_set1(show=True, params=None):
     device = "cuda" if torch.cuda.is_available() else "cpu"
     model = NeuralNetwork().to(device)
     print(model)
@@ -34,31 +34,37 @@ def cls_set1():
     print(f"length of Datasets - training: {len(train_dataset)}, test: {len(test_dataset)}")
 
     # Parameters
-    params = {'batch_size': 10,
-              'shuffle': True}
+    if params is None:
+        params = {'batch_size': 10,
+                  'shuffle': True,
+                  'learning_rate': 1e-6,
+                  'epochs': 200}
 
     # Creating the Dataloaders
-    train_dataloader = DataLoader(train_dataset, **params)
-    test_dataloader = DataLoader(test_dataset, **params)
+    train_dataloader = DataLoader(train_dataset, shuffle=params["shuffle"], batch_size=params["batch_size"])
+    test_dataloader = DataLoader(test_dataset, shuffle=params["shuffle"], batch_size=params["batch_size"])
 
     for batch in train_dataloader:
         print(f"Batch: {batch[0]}")
         break
 
-    learning_rate = 1e-7
-    print(f"LR:  {learning_rate}")
+    print(f"LR:  {params['learning_rate']}")
 
     loss_fn = nn.CrossEntropyLoss()
-    optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
-
-    epochs = 200
+    optimizer = torch.optim.SGD(model.parameters(), lr=params['learning_rate'])
 
     accuracy, avg_loss = [], []
-    for e in range(epochs):
+    for e in range(params['epochs']):
         print(f"Epoch {e + 1}\n-------------------------------")
         train_loop(train_dataloader, model, loss_fn, optimizer)
         test_loop(test_dataloader, model, loss_fn, [accuracy, avg_loss])
     print("Done!")
+
+    if show:
+        show_resultes(accuracy, avg_loss)
+    return {"acc": accuracy, "loss": avg_loss}
+
+def show_resultes(accuracy, avg_loss):
     plt.plot(accuracy)
     plt.xlabel("Epoch")
     plt.ylabel("Accuracy in %")
@@ -67,8 +73,6 @@ def cls_set1():
     plt.xlabel("Epoch")
     plt.ylabel("AVG Loss")
     plt.show()
-
-
 def train_loop(dataloader, model, loss_fn, optimizer):
     size = len(dataloader.dataset)
     for batch, (X, y) in enumerate(dataloader):

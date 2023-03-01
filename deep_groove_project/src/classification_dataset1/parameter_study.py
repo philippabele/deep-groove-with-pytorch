@@ -12,7 +12,7 @@ def main():
     """
     params = {'batch_size': 20,
               'shuffle': True,
-              'learning_rate': 1e-7,
+              'learning_rate': 1e-6,
               'epochs': 200}
 
     # cls_set1(params, output={"cli": True, "plot": True})
@@ -50,19 +50,7 @@ def parameter_epochs(params, output):
     elapsed_time = time.time() - st
     print('Execution time:', elapsed_time, 'seconds')
 
-    # generating the Plot for the Accuracy
-    for val, i in zip(values, range(len(values))):
-        plt.plot(val["acc"], label=val["epochs"])
-    plt.legend(loc="lower right")
-    plt.title("Accuracy, differing Epochs")
-    plt.show()
-
-    # generating the Plot for the average Loss
-    for val, i in zip(values, range(len(values))):
-        plt.plot(val["loss"], label=val["epochs"])
-    plt.legend(loc="upper right")
-    plt.title("AVG Loss, differing Epochs")
-    plt.show()
+    show_plots(values, 'epochs', "differing Epochs")
 
 
 def parameter_learning_rate(params, output):
@@ -92,29 +80,18 @@ def parameter_learning_rate(params, output):
     elapsed_time = time.time() - st
     print('Execution time:', elapsed_time, 'seconds')
 
-    # generating the Plot for the Accuracy
-    for val, i in zip(values, range(len(values))):
-        plt.plot(val["acc"], label=val["learning_rate"])
-    plt.legend(loc="lower right")
-    plt.title("Accuracy, differing Learning Rates")
-    plt.show()
-
-    # generating the Plot for the Average Loss
-    for val, i in zip(values, range(len(values))):
-        plt.plot(val["loss"], label=val["learning_rate"])
-    plt.legend(loc="upper right")
-    plt.title("AVG Loss, differing Learning Rates")
-    plt.show()
+    show_plots(values, 'learning_rate', "differing Learning Rates")
 
 
 def parameter_batch_size(params, output):
     """ parameter_epochs(params, output)
-        e.g. params = {'batch_size': 20,    # the size of the Batches
-                'shuffle': True,            # shuffle the train data
-                'learning_rate': 1e-7,      # learning rate of the model
-                'epochs': 200}              # number of epochs
-            output={"cli": False,           # shows console prints when True
-                "plot": False}              # shows plots if True
+    Args:
+        params = {'batch_size': int,    # the size of the Batches
+                  'shuffle': bool,            # shuffle the train data
+                  'learning_rate': float like 1e-7,      # learning rate of the model
+                  'epochs': int}              # number of epochs
+        output={"cli": bool,           # shows console prints when True
+                "plot": bool}          # shows plots if True
 
     this Function variates the batch size of the training and testing data. So the number of data points the model
     gets every iteration.
@@ -135,20 +112,30 @@ def parameter_batch_size(params, output):
     elapsed_time = time.time() - st
     print('Execution time:', elapsed_time, 'seconds')
 
+    show_plots(values, 'batch_size', "differing the batch_size")
+
+
+def show_plots(values, parameter, Title):
+    """Displays the plots of the values in value
+
+    Args:
+        values (dict{"acc", "loss"}): The values with the loss and the accuracy of the Model
+        parameter (str): The parameter that was tested, for the legend
+        Title (str): Title of the Plot
+    """
     # generating the Plot for the Accuracy diagram
     for val, i in zip(values, range(len(values))):
-        plt.plot(val["acc"], label=val["batch_size"])
+        plt.plot(val["acc"], label=val[parameter])
     plt.legend(loc="lower right")
-    plt.title("Accuracy, differing Batch Sizes")
+    plt.title(f"Accuracy, {Title}")
     plt.show()
 
     # generating the Plot for the Average Loss
     for val, i in zip(values, range(len(values))):
-        plt.plot(val["loss"], label=val["batch_size"])
+        plt.plot(val["loss"], label=val[parameter])
     plt.legend(loc="upper right")
-    plt.title("AVG Loss, differing Batch Sizes")
+    plt.title(f"AVG Loss, {Title}")
     plt.show()
-
 
 if __name__ == '__main__':
     main()

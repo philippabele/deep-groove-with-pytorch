@@ -15,9 +15,11 @@ def main():
               'learning_rate': 1e-7,
               'epochs': 200}
 
+    # cls_set1(params, output={"cli": True, "plot": True})
+
     parameter_batch_size(params, output={"cli": False, "plot": False})
     parameter_learning_rate(params, output={"cli": False, "plot": False})
-    parameter_epochs(params, output={"cli": True, "plot": False})
+    parameter_epochs(params, output={"cli": False, "plot": False})
 
 
 def parameter_epochs(params, output):
@@ -40,6 +42,7 @@ def parameter_epochs(params, output):
     # doing the training of the model for every value in epochs
     for i in range(len(epochs)):
         params["epochs"] = epochs[i]
+        print(params)
         values.append(cls_set1(params, output=output))
         values[len(values) - 1]['epochs'] = epochs[i]
 
@@ -81,6 +84,7 @@ def parameter_learning_rate(params, output):
     # doing the training of the model for every value in learning_rates
     for i in range(len(learning_rates)):
         params["learning_rate"] = learning_rates[i]
+        print(params)
         values.append(cls_set1(params, output=output))
         values[len(values) - 1]['learning_rate'] = learning_rates[i]
 
@@ -123,6 +127,7 @@ def parameter_batch_size(params, output):
     # doing the training of the model for every value in batch_size
     for i in range(len(batch_sizes)):
         params["batch_size"] = batch_sizes[i]
+        print(params)
         values.append(cls_set1(params, output=output))
         values[len(values)-1]['batch_size'] = batch_sizes[i]
 

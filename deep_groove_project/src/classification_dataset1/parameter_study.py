@@ -5,24 +5,35 @@ import time
 
 
 def main():
-
+    """
+    This Function does a Parameter Study with tree different parameters.
+    - batch Size
+    - learning parameter
+    - epochs
+    """
     params = {'batch_size': 20,
               'shuffle': True,
               'learning_rate': 1e-7,
               'epochs': 200}
 
     parameter_batch_size(params, output={"cli": False, "plot": False})
-    parameter_learning_rate(params, output={"cli": False, "plot": False})
-    parameter_epochs(params, output={"cli": False, "plot": False})
+    # parameter_learning_rate(params, output={"cli": False, "plot": False})
+    # parameter_epochs(params, output={"cli": False, "plot": False})
 
 
 def parameter_epochs(params, output):
+    """
+    this Function variates the epochs of the ML models learning Process
+    epochs = [10, 50, 100, 200, 500, 1000]
+    """
     st = time.time()
     values = []
     epochs = [10, 50, 100, 200, 500, 1000]
     for i in range(len(epochs)):
         params["epochs"] = epochs[i]
+
         values.append(cls_set1(params, output=output))
+
         values[len(values) - 1]['epochs'] = epochs[i]
 
     elapsed_time = time.time() - st
@@ -42,6 +53,11 @@ def parameter_epochs(params, output):
 
 
 def parameter_learning_rate(params, output):
+    """
+    this Function variates the learning rate of the ML models learning Process
+    learning_rates = [1e-5, 1e-6, 1e-7, 1e-8, 1e-9]
+    """
+
     st = time.time()
     values = []
     learning_rates = [1e-5, 1e-6, 1e-7, 1e-8, 1e-9]
@@ -67,15 +83,23 @@ def parameter_learning_rate(params, output):
 
 
 def parameter_batch_size(params, output):
+    """
+    this Function variates the batch size of the training and testing data. So the number of data points the model
+    gets every iteration.
+    learning_rates = [1e-5, 1e-6, 1e-7, 1e-8, 1e-9]
+    """
     st = time.time()
     values = []
-    for i in range(10, 101, 10):
-        params["batch_size"] = i
+    batch_sizes = [10, 20, 30, 40, 50, 100]
+    for i in range(len(batch_sizes)):
+        params["batch_size"] = batch_sizes[i]
         values.append(cls_set1(params, output=output))
-        values[len(values)-1]['batch_size'] = i
+        values[len(values)-1]['batch_size'] = batch_sizes[i]
 
     elapsed_time = time.time() - st
     print('Execution time:', elapsed_time, 'seconds')
+
+    print(values[0]["acc"])
 
     for val, i in zip(values, range(len(values))):
         plt.plot(val["acc"], label=val["batch_size"])

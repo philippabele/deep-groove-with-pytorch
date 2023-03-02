@@ -20,7 +20,16 @@ def show_standard_info(df):
 
 
 def show_correlation_grafs(df):
-    fields = ['Fr', 'n', 'Lifetime']
+    fields = ['radial Force Fr in N', 'rotational speed n in rpm', "Lifetime in h (logarithmic scale base 10)"]
+
+    df['Lifetime'] = np.log10(df['Lifetime'])
+    df = df.rename(
+        columns={
+            "Lifetime": "Lifetime in h (logarithmic scale base 10)",
+            "n": "rotational speed n in rpm",
+            "Fr": "radial Force Fr in N"
+        }
+    )
 
     chart = alt.Chart(df).mark_point().encode(
         alt.X(alt.repeat("column"), type='quantitative'),

@@ -20,7 +20,7 @@ def show_standard_info(df):
 
 
 def show_correlation_grafs(df):
-    fields = ['Fr','n','Lifetime']
+    fields = ['Fr', 'n', 'Lifetime']
 
     chart = alt.Chart(df).mark_point().encode(
         alt.X(alt.repeat("column"), type='quantitative'),
@@ -43,10 +43,10 @@ def show_3d_scatter(df):
     n = df.iloc[:, 1]
     lifetime = df.iloc[:, 2]
 
-    ax.scatter(fr, n, np.log(lifetime))
+    ax.scatter(fr, n, np.log10(lifetime))
     ax.set_xlabel('Fr')
     ax.set_ylabel('n')
-    ax.set_zlabel('log(Lifetime)')
+    ax.set_zlabel('\n Lifetime in h \n(logarithmic scale base 10)')
     plt.show()
 
 

@@ -44,8 +44,8 @@ def show_3d_scatter(df):
     lifetime = df.iloc[:, 2]
 
     ax.scatter(fr, n, np.log10(lifetime))
-    ax.set_xlabel('Fr')
-    ax.set_ylabel('n')
+    ax.set_xlabel('radial Force Fr in N')
+    ax.set_ylabel('rotational speed n in rpm')
     ax.set_zlabel('\n Lifetime in h \n(logarithmic scale base 10)')
     plt.show()
 

@@ -2,10 +2,11 @@ import torch
 import altair as alt
 import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
 
 
 def main():
-    df = pd.read_csv("../../data/dataset1.csv")
+    df = pd.read_csv("../../dataset/dataset1.csv")
     show_standard_info(df)
     show_correlation_grafs(df)
     show_3d_scatter(df)
@@ -19,7 +20,16 @@ def show_standard_info(df):
 
 
 def show_correlation_grafs(df):
-    fields = ['Fr','n','Lifetime']
+    fields = ['radial Force Fr in N', 'rotational speed n in rpm', "Lifetime in h (logarithmic scale base 10)"]
+
+    df['Lifetime'] = np.log10(df['Lifetime'])
+    df = df.rename(
+        columns={
+            "Lifetime": "Lifetime in h (logarithmic scale base 10)",
+            "n": "rotational speed n in rpm",
+            "Fr": "radial Force Fr in N"
+        }
+    )
 
     chart = alt.Chart(df).mark_point().encode(
         alt.X(alt.repeat("column"), type='quantitative'),
@@ -42,10 +52,10 @@ def show_3d_scatter(df):
     n = df.iloc[:, 1]
     lifetime = df.iloc[:, 2]
 
-    ax.scatter(fr, n, lifetime)
-    ax.set_xlabel('Fr')
-    ax.set_ylabel('n')
-    ax.set_zlabel('Lifetime')
+    ax.scatter(fr, n, np.log10(lifetime))
+    ax.set_xlabel('radial Force Fr in N')
+    ax.set_ylabel('rotational speed n in rpm')
+    ax.set_zlabel('\n Lifetime in h \n(logarithmic scale base 10)')
     plt.show()
 
 

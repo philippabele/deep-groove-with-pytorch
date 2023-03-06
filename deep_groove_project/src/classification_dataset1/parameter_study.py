@@ -2,6 +2,7 @@ from cls_set1 import cls_set1
 from cls_set1 import show_resultes
 import matplotlib.pyplot as plt
 import time
+from copy import deepcopy
 
 
 def main():
@@ -12,14 +13,13 @@ def main():
     """
     params = {'batch_size': 20,
               'shuffle': True,
-              'learning_rate': 1e-6,
+              'learning_rate': 1e-8,
               'epochs': 200}
-
     # cls_set1(params, output={"cli": True, "plot": True})
 
-    parameter_batch_size(params, output={"cli": False, "plot": False})
-    parameter_learning_rate(params, output={"cli": False, "plot": False})
-    parameter_epochs(params, output={"cli": False, "plot": False})
+    # parameter_batch_size(deepcopy(params), output={"cli": False, "plot": False})
+    # parameter_learning_rate(deepcopy(params), output={"cli": False, "plot": False})
+    parameter_epochs(deepcopy(params), output={"cli": False, "plot": False})
 
 
 def parameter_epochs(params, output):
@@ -51,6 +51,9 @@ def parameter_epochs(params, output):
     print('Execution time:', elapsed_time, 'seconds')
 
     show_plots(values, 'epochs', "differing Epochs")
+
+    for i in range(len(values)):
+        print(values[i]['acc'][len(values[i]['acc'])-1])
 
 
 def parameter_learning_rate(params, output):

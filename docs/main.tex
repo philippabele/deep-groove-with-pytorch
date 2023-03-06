@@ -92,6 +92,7 @@
 			
 	\chapter{Application}
 		\section{First Steps with a Dataset}
+		%TODO: beschreiben des ersten kapitels
 			\subsection{Exploratory Data Analysis}
 			\noindent A dataset is provided with three values. It has data of a shaft-bearing-system loaded with rotational force and rotations per minute and a third value, which is the lifetime in hours.
 			
@@ -114,7 +115,7 @@
 				\end{minipage}
 			\end{figure}
 			
-			\noindent After showing the info of the data and getting a general feel for the data set, we can see how the data points are related to each other with the same techniques from Chapter \ref{EDA}. We create a chart for every feature of a data point and get the charts in picture \ref{fig:EDA_crossplot}. the charts where we use \textit{Fr} and \textit{n} aren't correlated at all. In a more zoomed in we can se that the points are evenly distributed. This makes sense if the data is a systematic test, with the changing parameters of rotation n and radial Force Fr. In picture \ref{fig:EDA_3Dscatter} there is a 3D scatter of the data points with n and Fr on the x and y axis and the Lifetime on the z axis. It shows a better Picture of the data were the equal distributed points show a good visible plane. The lifetime increases rapidly when n and Fr go towards zero and shrink exponential when one of both parameters are increased.
+			\noindent After showing the info of the data and getting a general feel for the data set, we can see how the data points are related to each other with the same techniques from Chapter \ref{EDA}. We create a chart for every feature of a data point and get the charts in picture \ref{fig:EDA_crossplot}. the charts where we use \textit{Fr} and \textit{n} aren't correlated at all. If we zoom in more we can see that the points are evenly distributed. This makes sense if the data is a systematic test, with the changing parameters of rotation n and radial Force Fr. In picture \ref{fig:EDA_3Dscatter} there is a 3D scatter of the data points with n and Fr on the x and y axis and the Logarithm of the Lifetime on the z axis. It shows a better Picture of the data were the equal distributed points show a good visible plane. The lifetime increases rapidly when n and Fr go towards zero and shrink exponential when one of both parameters are increased.
 	
 			\begin{figure}[H]
 				\centering
@@ -134,7 +135,8 @@
 					\label{fig:EDA_3Dscatter}
 				\end{minipage}
 			\end{figure}
-			\subsection{first Machine Learning Model}
+		
+			\subsection{Machine Learning Model}
 				\noindent After the analytic exploration of the data set, we can train our first machine learning model on the data. My goal is to use the Rotation n and the Force Fr as input and get the Years of Life as the output. For this we first need to load the data from the csv and create a feature data class out of it, with which the machine learning model can work with. For this I implemented the \texttt{FeatureDataclass} to hold the test and training data. In Picture \ref{fig:FeatureDataclass} is the Code for this class. In the Constructor of the class the given data frame is cut into the input and output values and saved into \texttt{self.sample} and \texttt{self.label}. Beside the Constructor also \texttt{\_\_len\_\_} and \texttt{\_\_getitem\_\_} is added. These methods return the length of the data set or the element at the given index.
 				
 				\begin{figure} [H]
@@ -176,6 +178,59 @@
 					\caption{Loss and Accuracy over 200 epochs}
 					\label{fig:lossAndAccuracy}
 				\end{figure}
+			
+			\subsection{Parameter Study}
+			
+				\noindent A parameter study is a way to find the best parameters for the machine learning model and the data. Some parameters will be chosen an varied isolated from each other to se the effect of them. It also gives insights on what are the extremes of these valued and where the best values lay. In this first parameter study the Learning rate of the model, the batch size of the training data and the epochs will be varied. 
+				
+				\noindent Before the parameter study starts, the standard valued need to be defined. After these Values are defined I will only change one so the effects of every variable can be isolated. 
+				\begin{gather}
+					learning\_rate = 1e^{-6}\\
+					batch\_size = 20\\
+					epochs = 200
+				\end{gather}
+				
+				\subsubsection{learning rate}
+					The learning rate is the value that regulates the changes the model does to its weights and biases. In Picture \ref{fig:parameter_study_learning} are two diagrams showing the Accuracy and the average loss of the machine learning model over epochs. It has multiple learning processes shown for different learning rates. It is visible that the larger learning rates are not as smooth as the smaller ones. The Accuracy jumps between high and low values because the model makes too huge changes after every optimization. the smaller the learning rates get, the smoother the graphs get. But if the learning rates gets to small, it can hinder the learning process because the model doesn't modify its weights enough to change its own behavior. In the left of the diagram \ref{fig:parameter_study_learning} the average loss over the epochs is shown. The Model that learned with the larger learning rate does not minimize its loss because it doesn't change its behavior in a significant amount. The lower the learning rate, the better the model minimizes its loss and even if the Accuracy jumps very hard, the average loss is very low and constant.
+					
+					\begin{figure} [H]
+						\centering
+						\resizebox{\linewidth} {!} {
+							\includegraphics{res/parameter_study/learning_ps.png}
+							
+						}
+						\caption{Accuracy and loss for different learning rates}
+						\label{fig:parameter_study_learning}
+					\end{figure}
+					
+				\subsubsection{batch size}
+					\noindent The size of the batched describes the size of samples the Model gets to train and learn. If the batch size is changed the model refines it learning process to more or less data depending the size. In the Diagram \ref{fig:parameter_study_batch} the model run for six different batch sizes. The accuracy is only good, if the size is not too huge or small. Accuracy with batch size 10 and 100 is not as good as with the sized between. The best result is with 50 where the Accuracy does not jump as much as with 20, 30, or 40. The average Loss is quite similar with all batch sizes. In the right Diagram in picture \ref{fig:parameter_study_batch} the average loss for the different batch sizes are shown. 
+					
+					\begin{figure} [H]
+						\centering
+						\resizebox{\linewidth} {!} {
+							\includegraphics{res/parameter_study/batch_ps.png}
+							
+						}
+						\caption{Accuracy and loss for different batch sizes}
+						\label{fig:parameter_study_batch}
+					\end{figure}
+					
+					
+				\subsubsection{epochs}
+					In the parameter study for epochs, I changed the value of the learning rate to $1e^{-8}$ so the difference in the results can be seen better. If we change the epochs of the model it has less iterations to optimize its weights and biases. So in theory the more epochs the nearer is the model to its potential. In this test, shown in Table \ref{tab:parameter_study}, the accuracy of the model was at its maximum around 75\%. In the first two runs the Model did not had the time to reach a very high accuracy, but after 100 epochs the model could reach the 70\% mark quite often. 
+				\begin{table}[!h]
+					\begin{center}
+						\begin{tabular}{| c || c | c | c | c  | c | c | }
+							\hline
+							Epochs & 10 & 50  & 100 & 200 & 500 & 1000 \\
+							\hline
+							Accuracy & 17.7419  & 45.8944 & 75.5131 & 75.6598 & 52.4926 & 71.5543 \\ 
+							\hline
+						\end{tabular}
+						\caption{\label{tab:parameter_study}The Accuracy of the different epochs}
+					\end{center}
+				\end{table}	
 	 
 	\chapter{Implementation}
 	

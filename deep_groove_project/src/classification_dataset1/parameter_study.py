@@ -13,12 +13,12 @@ def main():
     """
     params = {'batch_size': 20,
               'shuffle': True,
-              'learning_rate': 1e-8,
+              'learning_rate': 1e-7,
               'epochs': 200}
     # cls_set1(params, output={"cli": True, "plot": True})
 
-    # parameter_batch_size(deepcopy(params), output={"cli": False, "plot": False})
-    # parameter_learning_rate(deepcopy(params), output={"cli": False, "plot": False})
+    parameter_batch_size(deepcopy(params), output={"cli": False, "plot": False})
+    parameter_learning_rate(deepcopy(params), output={"cli": False, "plot": False})
     parameter_epochs(deepcopy(params), output={"cli": False, "plot": False})
 
 

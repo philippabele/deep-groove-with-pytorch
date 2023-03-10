@@ -31,8 +31,9 @@ def cls_set1(params=None, output={"cli": True, "plot": True}):
     if output["cli"]:
         print(dataframe.head())
     # Creating custom Dataset
-    train_dataset = FeatureDataset(dataframe[:int(len(dataframe)/2)])
-    test_dataset = FeatureDataset(dataframe[int(len(dataframe)/2):])
+    split_index = int(len(dataframe) * 0.75)
+    train_dataset = FeatureDataset(dataframe[:split_index])
+    test_dataset = FeatureDataset(dataframe[split_index:])
 
     if output["cli"]:
         print(f"length of Datasets - training: {len(train_dataset)}, test: {len(test_dataset)}")

@@ -1,0 +1,13 @@
+version: '3.9'
+
+services:
+  enviornment:
+    build: .
+    image: docker_python_env
+    container_name: docker_python_env
+    environment:
+      - GH_TOKEN=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
+      - GH_EMAIL=r.kursidem@web.de
+      - GH_UNAME=RicoKursidem
+      - GH_REPO_OWNER=RicoKursidem
+      - GH_REPO_NAME=dhbw-deep-groove-with-pytorch

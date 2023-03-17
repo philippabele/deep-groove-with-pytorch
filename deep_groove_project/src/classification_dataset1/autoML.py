@@ -1,8 +1,6 @@
 import pandas as pd
 
 from FeatureDataset import FeatureDataset
-import sklearn.datasets
-import sklearn.model_selection
 from autoPyTorch.api.tabular_classification import TabularClassificationTask
 
 

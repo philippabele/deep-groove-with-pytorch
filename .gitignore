@@ -34,4 +34,5 @@ main-blx.bib
 
 # Datafolder
 **/data/*
-Docker Enviornment/.env
+Docker Enviornment/my.env
+Docker Enviornment/enviornment.yaml

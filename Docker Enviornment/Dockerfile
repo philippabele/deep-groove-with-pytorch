@@ -44,6 +44,9 @@ RUN git config gpg.program gpg
 RUN git config user.name "${gh_uname}"
 RUN git config user.email "${gh_email}"
 
+#install Dependecies
+# RUN apt-get update && apt-get install ffmpeg libsm6 libxext6 -y
+
 # installing python3
 RUN apt-get update && apt-get install -y --no-install-recommends \
     python3.5 \
@@ -51,5 +54,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+RUN pip3 install torch torchvision torchaudio autoPyTorch
+
 
 CMD ["bash"]

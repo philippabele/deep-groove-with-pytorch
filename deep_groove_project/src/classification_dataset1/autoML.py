@@ -1,14 +1,13 @@
 import pandas as pd
-
 from FeatureDataset import FeatureDataset
-import sklearn.datasets
-import sklearn.model_selection
+
 from autoPyTorch.api.tabular_classification import TabularClassificationTask
+
 
 
 def main():
     #  Loading and preparing Dataframe
-    dataframe = pd.read_csv("../../dataset/dataset1.csv")
+    dataframe = pd.read_csv("/dhbw-deep-groove-with-pytorch/deep_groove_project/dataset/dataset1.csv")
 
     dataframe['Label'] = 0
     dataframe['Label'].where(dataframe['Lifetime'] <= 8760, 1, inplace=True)
@@ -33,27 +32,27 @@ def main():
 
     api = TabularClassificationTask(seed=42)
     api.search(
-        X_train=train_dataset.sample,
-        y_train=train_dataset.label,
-        X_test=test_dataset.sample,
-        y_test=test_dataset.label,
+        X_train=train_dataset.sample.numpy(),
+        y_train=train_dataset.label.numpy(),
+        X_test=test_dataset.sample.numpy(),
+        y_test=test_dataset.label.numpy(),
         dataset_name='Ball_Bearings',
         optimize_metric='accuracy',
         total_walltime_limit=300,
         func_eval_time_limit_secs=50
     )
 
-    y_pred = api.predict(test_dataset.sample)
-    score = api.score(y_pred, test_dataset.label)
+    y_pred = api.predict(test_dataset.sample.numpy())
+    score = api.score(y_pred, test_dataset.label.numpy())
     print(score)
 
     print(api.sprint_statistics())
 
     api.refit(
-        X_train=train_dataset.sample,
-        y_train=train_dataset.label,
-        X_test=test_dataset.sample,
-        y_test=test_dataset.label,
+        X_train=train_dataset.sample.numpy(),
+        y_train=train_dataset.label.numpy(),
+        X_test=test_dataset.sample.numpy(),
+        y_test=test_dataset.label.numpy(),
         dataset_name="Ball_Bearings",
         # you can change the resampling strategy to
         # for example, CrossValTypes.k_fold_cross_validation
@@ -61,8 +60,8 @@ def main():
         # resampling_strategy=CrossValTypes.k_fold_cross_validation
     )
 
-    y_pred = api.predict(test_dataset.sample)
-    score = api.score(y_pred, test_dataset.label)
+    y_pred = api.predict(test_dataset.sample.numpy())
+    score = api.score(y_pred, test_dataset.label.numpy())
     print(score)
 
     # Print the final ensemble built by AutoPyTorch

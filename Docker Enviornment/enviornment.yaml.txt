@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  env_ubuntu:
+    build:
+      context: .
+      args:
+        - gh_token=
+        - gh_email=
+        - gh_uname=
+        - gh_repo_owner=
+        - gh_repo_name=
+    
+    tty: true
+    image: ubuntu_python_env
+    container_name: ubuntu_python_env

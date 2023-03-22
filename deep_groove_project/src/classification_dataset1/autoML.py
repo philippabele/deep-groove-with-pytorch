@@ -1,6 +1,9 @@
 import pandas as pd
 from FeatureDataset import FeatureDataset
+<<<<<<< HEAD
 
+=======
+>>>>>>> 654a7c55dd2b5b10a692b35155d87ea917364e60
 from autoPyTorch.api.tabular_classification import TabularClassificationTask
 
 

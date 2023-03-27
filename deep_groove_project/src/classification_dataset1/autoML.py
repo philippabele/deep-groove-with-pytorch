@@ -8,7 +8,7 @@ from autoPyTorch.api.tabular_classification import TabularClassificationTask
 
 def main():
     #  Loading and preparing Dataframe
-    dataframe = pd.read_csv("../../dataset/dataset1.csv")
+    dataframe = pd.read_csv("deep_groove_project/dataset/dataset1.csv")
 
     dataframe['Label'] = 0
     dataframe['Label'].where(dataframe['Lifetime'] <= 8760, 1, inplace=True)

@@ -1,7 +1,5 @@
 FROM ubuntu:focal
 
-
-
 ARG gh_token
 ARG gh_email
 ARG gh_uname
@@ -31,6 +29,7 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | d
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
     && apt update \
     && apt install gh -y
+
 # clone repo 
 RUN gh repo clone ${gh_repo_owner}/${gh_repo_name}
 
@@ -44,18 +43,45 @@ RUN git config gpg.program gpg
 RUN git config user.name "${gh_uname}"
 RUN git config user.email "${gh_email}"
 
-#install Dependecies
-# RUN apt-get update && apt-get install ffmpeg libsm6 libxext6 -y
+## Python andAutoPyTorch
+WORKDIR /auto-pytorch
 
-# installing python3
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3.5 \
-    python3-pip \
-    && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+# install linux packages
+RUN apt-get update
 
-RUN pip3 install torch torchvision torchaudio autoPyTorch
+# Set the locale
+# workaround for https://github.com/automl/auto-sklearn/issues/867
+RUN apt-get -y install locales
+RUN touch /usr/share/locale/locale.alias
+RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+
+# set environment variables to only use one core
+RUN export OPENBLAS_NUM_THREADS=1
+RUN export MKL_NUM_THREADS=1
+RUN export BLAS_NUM_THREADS=1
+RUN export OMP_NUM_THREADS=1
+
+# install build requirements
+RUN apt install -y python3-dev python3-pip
+RUN pip3 install --upgrade setuptools
+RUN apt install -y build-essential
+
+RUN apt install -y swig
+
+# Copy the checkout auto-pytorch version for installation
+ADD . /auto-pytorch/
+
+# Upgrade pip then install dependencies
+RUN pip3 install --upgrade pip
+RUN pip3 install pytest==4.6.* pep8 codecov pytest-cov flake8 flaky openml
+# RUN cat requirements.txt | xargs -n 1 -L 1 pip3 install
+RUN pip3 install jupyter
+
+# Install
+# RUN pip3 install /auto-pytorch/
 
 
 CMD ["bash"]

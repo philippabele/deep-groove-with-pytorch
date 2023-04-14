@@ -2,19 +2,21 @@ import torch
 import pandas as pd
 from torch import nn
 from torch.utils.data import DataLoader
-from classification_dataset1.FeatureDataset import FeatureDataset
-from classification_dataset1.NeuralNetwork import NeuralNetwork
+from FeatureDataset import FeatureDataset
+from NeuralNetwork import NeuralNetwork
 import matplotlib.pyplot as plt
 
-
-def cls_set1(params=None, output={"cli": True, "plot": True}):
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+def cls_set1(dataset, params=None, output={"cli": True, "plot": True}):
+    # device = "cuda" if torch.cuda.is_available() else "cpu"
+    # TODO: handle Devices
+    device = "cpu"
+    
     model = NeuralNetwork().to(device)
     if output["cli"]:
         print(model)
 
     #  Loading and preparing Dataframe
-    dataframe = pd.read_csv("../../dataset/dataset1.csv")
+    dataframe = pd.read_csv(dataset)
 
     # shuffle Dataframe
     dataframe = dataframe.sample(frac=1)
@@ -34,6 +36,7 @@ def cls_set1(params=None, output={"cli": True, "plot": True}):
     split_index = int(len(dataframe) * 0.75)
     train_dataset = FeatureDataset(dataframe[:split_index])
     test_dataset = FeatureDataset(dataframe[split_index:])
+
 
     if output["cli"]:
         print(f"length of Datasets - training: {len(train_dataset)}, test: {len(test_dataset)}")
@@ -86,6 +89,7 @@ def train_loop(dataloader, model, loss_fn, optimizer, output):
     size = len(dataloader.dataset)
     for batch, (X, y) in enumerate(dataloader):
         # Compute prediction and loss
+        
         pred = model(X)
         loss = loss_fn(pred, y)
 
@@ -107,6 +111,7 @@ def test_loop(dataloader, model, loss_fn, charts, output):
 
     with torch.no_grad():
         for X, y in dataloader:
+            
             pred = model(X)
             test_loss += loss_fn(pred, y).item()
 
@@ -122,4 +127,4 @@ def test_loop(dataloader, model, loss_fn, charts, output):
 
 
 if __name__ == '__main__':
-    cls_set1()
+    print("run main.py")

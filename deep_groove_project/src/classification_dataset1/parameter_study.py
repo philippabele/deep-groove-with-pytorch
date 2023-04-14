@@ -1,11 +1,11 @@
-from cls_set1 import cls_set1
-from cls_set1 import show_resultes
+from classification_dataset1.cls_set1 import cls_set1
+from classification_dataset1.cls_set1 import show_resultes
 import matplotlib.pyplot as plt
 import time
 from copy import deepcopy
 
 
-def main():
+def main(data_path):
     """ This Function does a Parameter Study with tree different parameters.
         - batch Size
         - learning parameter
@@ -15,14 +15,14 @@ def main():
               'shuffle': True,
               'learning_rate': 1e-7,
               'epochs': 200}
-    # cls_set1(params, output={"cli": True, "plot": True})
+    # cls_set1(data_path, params, output={"cli": True, "plot": True})
 
-    parameter_batch_size(deepcopy(params), output={"cli": False, "plot": False})
-    parameter_learning_rate(deepcopy(params), output={"cli": False, "plot": False})
-    parameter_epochs(deepcopy(params), output={"cli": False, "plot": False})
+    parameter_batch_size(data_path, deepcopy(params), output={"cli": False, "plot": False})
+    parameter_learning_rate(data_path, deepcopy(params), output={"cli": False, "plot": False})
+    parameter_epochs(data_path, deepcopy(params), output={"cli": False, "plot": False})
 
 
-def parameter_epochs(params, output):
+def parameter_epochs(data_path, params, output):
     """ parameter_epochs(params, output)
         e.g. params = {
                 'batch_size': 20,    # the size of the Batches
@@ -43,7 +43,7 @@ def parameter_epochs(params, output):
     for i in range(len(epochs)):
         params["epochs"] = epochs[i]
         print(params)
-        values.append(cls_set1(params, output=output))
+        values.append(cls_set1(data_path, params, output=output))
         values[len(values) - 1]['epochs'] = epochs[i]
 
     # printing the time it needed
@@ -56,7 +56,7 @@ def parameter_epochs(params, output):
         print(values[i]['acc'][len(values[i]['acc'])-1])
 
 
-def parameter_learning_rate(params, output):
+def parameter_learning_rate(data_path, params, output):
     """ parameter_epochs(params, output)
         e.g. params = {'batch_size': 20,    # the size of the Batches
                 'shuffle': True,            # shuffle the train data
@@ -76,7 +76,7 @@ def parameter_learning_rate(params, output):
     for i in range(len(learning_rates)):
         params["learning_rate"] = learning_rates[i]
         print(params)
-        values.append(cls_set1(params, output=output))
+        values.append(cls_set1(data_path, params, output=output))
         values[len(values) - 1]['learning_rate'] = learning_rates[i]
 
     # printing the time it needed
@@ -86,7 +86,7 @@ def parameter_learning_rate(params, output):
     show_plots(values, 'learning_rate', "differing Learning Rates")
 
 
-def parameter_batch_size(params, output):
+def parameter_batch_size(data_path, params, output):
     """ parameter_epochs(params, output)
     Args:
         params = {'batch_size': int,    # the size of the Batches
@@ -108,7 +108,7 @@ def parameter_batch_size(params, output):
     for i in range(len(batch_sizes)):
         params["batch_size"] = batch_sizes[i]
         print(params)
-        values.append(cls_set1(params, output=output))
+        values.append(cls_set1(data_path, params, output=output))
         values[len(values)-1]['batch_size'] = batch_sizes[i]
 
     # printing the time it needed
@@ -141,4 +141,4 @@ def show_plots(values, parameter, Title):
     plt.show()
 
 if __name__ == '__main__':
-    main()
+    printf("run main.py")

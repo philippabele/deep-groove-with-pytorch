@@ -28,7 +28,7 @@ main-blx.bib
 /deep_groove_project/.idea/
 
 # Python
-/deep_groove_project/venv/
+*/venv*
 /deep_groove_project/__pycache__/
 *.pyc
 

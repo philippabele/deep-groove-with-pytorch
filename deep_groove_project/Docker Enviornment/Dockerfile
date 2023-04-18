@@ -5,6 +5,7 @@ ARG gh_email
 ARG gh_uname
 ARG gh_repo_owner
 ARG gh_repo_name
+ARG gh_branch
 
 ENV GH_TOKEN ${gh_token}
 
@@ -38,6 +39,8 @@ RUN git config gpg.program gpg
 # RUN git config commit.gpgsign true
 RUN git config user.name "${gh_uname}"
 RUN git config user.email "${gh_email}"
+
+RUN git checkout ${gh_branch}
 
 ## Python and AutoPyTorch
 WORKDIR /auto-pytorch

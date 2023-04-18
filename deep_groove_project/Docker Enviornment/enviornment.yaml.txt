@@ -10,6 +10,7 @@ services:
         - gh_uname=
         - gh_repo_owner=
         - gh_repo_name=
+        - gh_branch=
     
     tty: true
     image: ubuntu_python_env

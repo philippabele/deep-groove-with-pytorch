@@ -141,4 +141,4 @@ def show_plots(values, parameter, Title):
     plt.show()
 
 if __name__ == '__main__':
-    printf("run main.py")
+    print("run main.py")

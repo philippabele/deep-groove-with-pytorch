@@ -8,19 +8,15 @@ ARG gh_repo_name
 
 ENV GH_TOKEN ${gh_token}
 
-# apt update
-RUN apt update
 
 # install zsh
+RUN apt update
 RUN apt install zsh -y
-# install ohmyzsh and set to default shell
 RUN yes | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-# install git
+# install git, gpg and curl
 RUN apt update -y && apt install git -y
-# install gpg
 RUN apt update -y && apt install gpg -y
-# install curl
 RUN type -p curl >/dev/null || apt install curl -y
 
 # install GitHub CLI (gh)
@@ -43,13 +39,13 @@ RUN git config gpg.program gpg
 RUN git config user.name "${gh_uname}"
 RUN git config user.email "${gh_email}"
 
-## Python andAutoPyTorch
+## Python and AutoPyTorch
 WORKDIR /auto-pytorch
 
 # install linux packages
 RUN apt-get update
 
-# Set the locale
+# Setup the autoPyTorch Enviornment
 # workaround for https://github.com/automl/auto-sklearn/issues/867
 RUN apt-get -y install locales
 RUN touch /usr/share/locale/locale.alias
@@ -77,11 +73,14 @@ ADD . /auto-pytorch/
 # Upgrade pip then install dependencies
 RUN pip3 install --upgrade pip
 RUN pip3 install pytest==4.6.* pep8 codecov pytest-cov flake8 flaky openml
-# RUN cat requirements.txt | xargs -n 1 -L 1 pip3 install
+
+RUN pip3 install -r /dhbw-deep-groove-with-pytorch/deep_groove_project/requirements.txt
+
+RUN cat /auto-pytorch/requirements.txt | xargs -n 1 -L 1 pip3 install
 RUN pip3 install jupyter
 
 # Install
-# RUN pip3 install /auto-pytorch/
+RUN pip3 install /auto-pytorch/
 
 
 CMD ["bash"]

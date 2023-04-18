@@ -71,19 +71,21 @@ RUN apt install -y build-essential
 RUN apt install -y swig
 
 # Copy the checkout auto-pytorch version for installation
-ADD . /auto-pytorch/
 
+RUN gh repo clone automl/Auto-PyTorch
+
+ADD . /auto-pytorch/
 # Upgrade pip then install dependencies
 RUN pip3 install --upgrade pip
 RUN pip3 install pytest==4.6.* pep8 codecov pytest-cov flake8 flaky openml
 
 RUN pip3 install -r /dhbw-deep-groove-with-pytorch/deep_groove_project/requirements.txt
 
-RUN cat /auto-pytorch/requirements.txt | xargs -n 1 -L 1 pip3 install
+# RUN cat /auto-pytorch/requirements.txt | xargs -n 1 -L 1 pip3 install
 RUN pip3 install jupyter
 
 # Install
-RUN pip3 install /auto-pytorch/
+# RUN pip3 install /auto-pytorch/
 
 
 CMD ["bash"]

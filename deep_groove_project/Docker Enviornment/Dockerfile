@@ -85,7 +85,7 @@ RUN pip3 install -r /dhbw-deep-groove-with-pytorch/deep_groove_project/requireme
 RUN pip3 install jupyter
 
 # Install
-# RUN pip3 install /auto-pytorch/
+RUN pip3 install /auto-pytorch/Auto-PyTorch/
 
 
 CMD ["bash"]

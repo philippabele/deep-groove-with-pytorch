@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:focal
 
 ARG gh_token
 ARG gh_email
@@ -11,7 +11,7 @@ ENV GH_TOKEN ${gh_token}
 
 
 # install zsh
-RUN apt-get update
+RUN apt update
 RUN apt install zsh -y
 RUN yes | sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
@@ -26,9 +26,6 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | d
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
     && apt update \
     && apt install gh -y
-
-
-# __________________________________________  config GitHub  Repository and cloning the Project
 
 # clone repo 
 RUN gh repo clone ${gh_repo_owner}/${gh_repo_name}
@@ -45,7 +42,7 @@ RUN git config user.email "${gh_email}"
 
 RUN git checkout ${gh_branch}
 
-# __________________________________________ Installing Python and AutoML and the Dependencies
+## Python and AutoPyTorch
 WORKDIR /auto-pytorch
 
 # install linux packages
@@ -56,7 +53,7 @@ RUN apt-get update
 RUN apt-get -y install locales
 RUN touch /usr/share/locale/locale.alias
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && locale-gen
-ENV LANG _US.UTF-8
+ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
@@ -73,18 +70,27 @@ RUN apt install -y build-essential
 
 RUN apt install -y swig
 
+# Copy the checkout auto-pytorch version for installation
+
 RUN gh repo clone automl/Auto-PyTorch
 
 ADD . /auto-pytorch/
-
+# Upgrade pip then install dependencies
 RUN pip3 install --upgrade pip
-RUN pip3 install pytest==4.6.* pep8 codecov pytest-cov flake8 flaky openml
-RUN pip3 install -r /auto-pytorch/Auto-PyTorch/requirements.txt 
+# RUN pip3 install pytest==4.6.* pep8 codecov pytest-cov flake8 flaky openml
+
+# RUN pip3 install -r /dhbw-deep-groove-with-pytorch/deep_groove_project/requirements.txt
+
+# RUN cat /auto-pytorch/requirements.txt | xargs -n 1 -L 1 pip3 install
 RUN pip3 install jupyter
 
-WORKDIR /auto-pytorch/Auto-PyTorch/autoPyTorch/
-
-RUN git clone https://github.com/automl/automl_common/
-
 # Install
-RUN pip3 install /auto-pytorch/Auto-PyTorch/
+# RUN pip3 install /auto-pytorch/Auto-PyTorch/
+
+# Install further Dependencies for AutoML
+RUN pip3 install autoPyTorch==0.1.1
+RUN apt-get update
+RUN apt install libgl1-mesa-glx -y
+RUN apt-get install libglib2.0-0
+
+CMD ["bash"]

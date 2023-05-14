@@ -73,6 +73,10 @@ RUN apt install -y build-essential
 
 RUN apt install -y swig
 
+RUN apt-get update
+RUN apt install libgl1-mesa-glx -y
+# RUN apt-get install libglib2.0-0 -y   -> muss per hand wegen parametern. { 8 Europa, 7 Berlin} 
+
 RUN gh repo clone automl/Auto-PyTorch
 
 ADD . /auto-pytorch/

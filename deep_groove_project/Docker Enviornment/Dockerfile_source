@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:20.04
 
 ARG gh_token
 ARG gh_email
@@ -8,6 +8,7 @@ ARG gh_repo_name
 ARG gh_branch
 
 ENV GH_TOKEN ${gh_token}
+
 
 # install zsh
 RUN apt-get update
@@ -27,7 +28,7 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | d
     && apt install gh -y
 
 
-# config GitHub  Repository and cloning the Project
+# __________________________________________  config GitHub  Repository and cloning the Project
 
 # clone repo 
 RUN gh repo clone ${gh_repo_owner}/${gh_repo_name}
@@ -44,6 +45,9 @@ RUN git config user.email "${gh_email}"
 
 RUN git checkout ${gh_branch}
 
+# __________________________________________ Installing Python and AutoML and the Dependencies
+WORKDIR /auto-pytorch
+
 # install linux packages
 RUN apt-get update
 
@@ -56,12 +60,35 @@ ENV LANG _US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
 
+# set environment variables to only use one core
+RUN export OPENBLAS_NUM_THREADS=1
+RUN export MKL_NUM_THREADS=1
+RUN export BLAS_NUM_THREADS=1
+RUN export OMP_NUM_THREADS=1
+
+# install build requirements
 RUN apt install -y python3-dev python3-pip
 RUN pip3 install --upgrade setuptools
 RUN apt install -y build-essential
 
 RUN apt install -y swig
 
-RUN pip3 install autoPyTorch
+RUN apt-get update
+RUN apt install libgl1-mesa-glx -y
+# RUN apt-get install libglib2.0-0 -y   -> muss per hand wegen parametern. { 8 Europa, 7 Berlin} 
 
-CMD ["bash"]
+RUN gh repo clone automl/Auto-PyTorch
+
+ADD . /auto-pytorch/
+
+RUN pip3 install --upgrade pip
+RUN pip3 install pytest==4.6.* pep8 codecov pytest-cov flake8 flaky openml
+RUN pip3 install -r /auto-pytorch/Auto-PyTorch/requirements.txt 
+RUN pip3 install jupyter
+
+WORKDIR /auto-pytorch/Auto-PyTorch/autoPyTorch/
+
+RUN git clone https://github.com/automl/automl_common/
+
+# Install
+RUN pip3 install /auto-pytorch/Auto-PyTorch/

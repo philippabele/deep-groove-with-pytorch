@@ -64,4 +64,7 @@ RUN apt install -y swig
 
 RUN pip3 install autoPyTorch
 
+RUN apt install libgl1-mesa-glx -y
+RUN apt-get install libglib2.0.0 -y
+
 CMD ["bash"]

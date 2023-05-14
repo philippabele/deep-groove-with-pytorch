@@ -30,7 +30,12 @@ def main():
           f"{test_dataset.sample.shape}, {test_dataset.label.shape} :: " +
           f"{feature_types}")
 
-    api = TabularClassificationTask(seed=42)
+    api = TabularClassificationTask(
+        seed=42,
+        n_jobs=4,
+        max_models_on_disc = 100
+        
+    )
     api.search(
         X_train=train_dataset.sample.numpy(),
         y_train=train_dataset.label.numpy(),
@@ -39,7 +44,8 @@ def main():
         dataset_name='Ball_Bearings',
         optimize_metric='accuracy',
         total_walltime_limit=300,
-        func_eval_time_limit_secs=50
+        func_eval_time_limit_secs=50,
+        memory_limit=None
     )
 
     y_pred = api.predict(test_dataset.sample.numpy())

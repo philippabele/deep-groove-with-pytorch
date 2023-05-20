@@ -45,6 +45,9 @@ def main():
         optimize_metric='accuracy',
         total_walltime_limit=300,
         func_eval_time_limit_secs=50,
+        budget_type ='runtime',
+        min_budget = 5,
+        max_budget = 1000,
         memory_limit=None
     )
 
@@ -68,7 +71,7 @@ def main():
 
     y_pred = api.predict(test_dataset.sample.numpy())
     score = api.score(y_pred, test_dataset.label.numpy())
-    print(score)
+    print(f"Score: {score}")
 
     # Print the final ensemble built by AutoPyTorch
     print(api.show_models())

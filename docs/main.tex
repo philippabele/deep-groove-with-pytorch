@@ -254,17 +254,28 @@
 		
 		\noindent \lstinputlisting[firstnumber=12, firstline=12, lastline=20]{res/code/Dockerfile}
 		
+		\noindent The following code block is installing the GitHub CLI, clones the repository with the autoPyTorch in it and sets up a authentication process for GitHub. The data is taken from the arguments before. All arguments are explained in the Docker Compose section. After the GitHub environment is setup, the correct branch is checked out. 
+		
 		\noindent \lstinputlisting[firstnumber=22, firstline=22, lastline=45]{res/code/Dockerfile}
 		
+		\noindent The ubuntu system is updated and the autoPyTorch library is installed. Before the pip install command can be executed, python, pip and some other dependencies are installed. This part of the Dockerfile can be found on the autoPyTorch Repository (https://github.com/automl/Auto-PyTorch/blob/master/Dockerfile). 
 		
-		\noindent \lstinputlisting[firstnumber=48, firstline=48, lastline=86]{res/code/Dockerfile}
+		\noindent Because this is in a Docker environment some extra dependencies are reqired. In line 67 and 68 libgl1 and libglib2.0.0 are installed. 
 		
+		\noindent \lstinputlisting[firstnumber=48, firstline=48, lastline=68]{res/code/Dockerfile}
+		
+		\noindent After the Dockerfile is finished, the container needs to open a CMD so it doesn't stop in impatiently and a Visual Studio Code instance can be attached.
 		
 		\noindent \lstinputlisting[firstnumber=70, firstline=70, lastline=70]{res/code/Dockerfile}
 		
 		\subsection{Docker Compose}
 		
 		%TODO: Compose
+		
+		Docker provides a possibility to create containers with all the parameters defined in a \textit{.yaml} file. Docker Compose has some extra benefits as well but I will mainly use it as a file where I can save my parameters. 
+		
+		\noindent \lstinputlisting{res/code/compose.yaml}
+		
 		%TODO: Github Token
 		
 		\subsection{Python Script}

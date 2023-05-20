@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  env_ubuntu:
+    build:
+      context: .
+      args:
+        - gh_token=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
+        - gh_email=r.kursidem@web.de
+        - gh_uname=RicoKursidem
+        - gh_repo_owner=RicoKursidem
+        - gh_repo_name=dhbw-deep-groove-with-pytorch
+        - gh_branch=AutoML
+    
+    tty: true
+    image: ubuntu_python_env
+    container_name: ubuntu_python_env

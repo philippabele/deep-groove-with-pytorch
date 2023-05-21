@@ -179,7 +179,7 @@
 					\label{fig:lossAndAccuracy}
 				\end{figure}
 			
-			\subsection{Parameter Study}
+			\subsection{Parameter Study}\label{paramStudy}
 			
 				\noindent A parameter study is a way to find the best parameters for the machine learning model and the data. Some parameters will be chosen an varied isolated from each other to se the effect of them. It also gives insights on what are the extremes of these valued and where the best values lay. In this first parameter study the Learning rate of the model, the batch size of the training data and the epochs will be varied. 
 				
@@ -231,12 +231,23 @@
 						\caption{\label{tab:parameter_study}The Accuracy of the different epochs}
 					\end{center}
 				\end{table}	
+		
+		\subsection{autoML}
+			
+			\noindent AutoML is a Framework to automate tasks in machine learning. The goal is to make it simpler for the user to find the right model and to train it. The training of machine learning models needs a lot of manual work from a programmer, like hyper parameter, feature and the model selection. AutoML tries to lower the manual work by automatising this process. This has the potential to lower the starting barrier for new programmers. It will also automate the process from section \ref{paramStudy}. 
+			
+			\subsubsection{autoML and the Ball Bearing Dataset}
+			
+			\subsubsection{Results}
+			
+			
+	 
 	 
 	\chapter{Implementation}
 		
 		\section{Parameterstudy with AutoPyTorch}
 		
-		\noindent The goal of this work is to realise an environment, where a Parameter study is performed automatically. For this purpose the AutoPyTorch library is used. Since it needs ubuntu to run, it will run in an Docker Container with the ubuntu Image as base and will clone the repository and install all Dependencies needed to run a automatic Parameter study.
+		\noindent AutoPyTorch is the python framework of autoML developed by a team at the University of Freiburg in Germany. The goal of this work is to realise an environment, where a Parameter study is performed automatically. For this purpose the AutoPyTorch library is used. Since it needs ubuntu to run, it will run in an Docker Container with the ubuntu Image as base and will clone the repository and install all Dependencies needed to run a automatic Parameter study.
 		
 		\subsection{Dockerfile}
 		
@@ -298,16 +309,6 @@
 		\end{itemize}
 		
 		\noindent \lstinputlisting{res/code/compose.yaml}
-		
-		%TODO: Github Token
-		
-		\subsection{Python Script}
-	
-		%TODO: Explaining Script
-	
-		\section{Results}
-		
-		%TODO: Explaining Results of the Script
 		
 	\chapter{Summary} % Fazit
 	

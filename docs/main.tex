@@ -274,6 +274,29 @@
 		
 		Docker provides a possibility to create containers with all the parameters defined in a \textit{.yaml} file. Docker Compose has some extra benefits as well but I will mainly use it as a file where I can save my parameters. 
 		
+		\noindent This Docker Compose file builds a Container from the Folder it is in. It will create an Image named \textit{ubuntu\_python\_env} and an Container from this Image with the same. It also uses the \textit{tty} parameter to make sure that the container does not terminate after an instant so a Visual Studio Code can be attached. 
+		
+		\noindent The Arguments given are used in the Dockerfile. 
+		
+		\begin{itemize}
+			\item gh\_token:  Authenticator token from GitHub. 
+			\begin{enumerate}
+				\item To create this Token, navigate to the GitHub Settings -> Developer Settings -> Personal Access Token
+				\item create a classic Token with the following minimum scopes.
+				\begin{enumerate}
+					\item repo
+					\item workflow
+					\item read:org
+				\end{enumerate}
+				\item Copy the generated Token into the docker Compose file
+			\end{enumerate}
+			\item gh\_email:  E-mail of the Token holder
+			\item gh\_uname:  Name of the Token holder
+			\item gh\_repo\_owner:  To clone the right Repository.
+			\item gh\_rep\_name:  To clone the right Repository.
+			\item gh\_branch:  To clone the right Branch. It will be possible to use the main branch, when the pull request is merged.
+		\end{itemize}
+		
 		\noindent \lstinputlisting{res/code/compose.yaml}
 		
 		%TODO: Github Token

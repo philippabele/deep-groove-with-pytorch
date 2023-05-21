@@ -7,7 +7,7 @@ services:
       args:
         - gh_token=<GitHubToken>
         - gh_email=<GitHubUserEmail>
-        - gh_uname=RicoKursidem
+        - gh_uname=<GitHubUserName>
         - gh_repo_owner=RicoKursidem
         - gh_repo_name=dhbw-deep-groove-with-pytorch
         - gh_branch=AutoML

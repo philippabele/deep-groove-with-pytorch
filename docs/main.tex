@@ -236,9 +236,20 @@
 			
 			\noindent AutoML is a Framework to automate tasks in machine learning. The goal is to make it simpler for the user to find the right model and to train it. The training of machine learning models needs a lot of manual work from a programmer, like hyper parameter, feature and the model selection. AutoML tries to lower the manual work by automatising this process. This has the potential to lower the starting barrier for new programmers. It will also automate the process from section \ref{paramStudy}. 
 			
-			\subsubsection{autoML and the Ball Bearing Dataset}
+			AutoML works in four phases. In the first one the data is preprocessed. It looks for highly correlational Data points and eliminates them and identifies variables with low predicting power to improve the dataset. After this Phase, autoML extracts Features and identifies the features with high predictive power. After these preparing stages the model gets tuned. In this Phase autoML identifies good hyperparameters and selects them. After finding a model and tuning its parameters, it will train it and evaluate the best models. At the end it will print a table like in picture \ref{fig:autoML_Table}.
 			
-			\subsubsection{Results}
+			After running autoML on the Ball Bearing Dataset, it prints a Table with its results. 
+			
+			\begin{figure} [H]
+				\centering
+				\resizebox{\linewidth} {!} {
+					\includegraphics{res/autoML.png}
+					
+				}
+				\caption{result table of autoML}
+				\label{fig:autoML_Table}
+			\end{figure}
+			
 			
 			
 	 

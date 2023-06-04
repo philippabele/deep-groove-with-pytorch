@@ -1,0 +1,14 @@
+			``` Dockerfile
+			
+			FROM ubuntu:latest
+			
+			ARG gh_token
+			ARG gh_email
+			ARG gh_uname
+			ARG gh_repo_owner
+			ARG gh_repo_name
+			ARG gh_branch
+			
+			ENV GH_TOKEN ${gh_token}
+			
+			```

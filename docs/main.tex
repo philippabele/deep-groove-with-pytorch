@@ -26,7 +26,7 @@
 			The Data Miner should always keep in mind, that you need to look for new Patterns that weren't expected, because they are the most interesting. It is important not trying to proof your own Thesis from before the Analyzing Process but to find new ones and always keep open to new findings. Also the Data Analyst should be skeptic towards Methods that compromise Data. If Data is summarized there will always be some loss of Information and the Hypothesis that will be based on these results will be not complete. To avoid this it is a good thing being skeptic towards compressed data. 
 			As a Method, \ac{EDA} works with a lot of visualization to find patterns in Datasets. It is important not to confuse Data Analysis and Statistics. It is important to keep in mind that even the most used statistical Methods could have some hidden assumptions about the data. It is always suggested to use diagrams and other visual methods to display data to minimize errors resulting out of these assumptions.\cite{Hardwig:Explortory_Data_Analysis}
 			
-			\noindent \ac{EDA} tries to generate a understanding of the data and not to proof already stated Hypothesis. This contrasts the Initial Data Analysis (\ac{IDA}) where it is more common to look closely for findings that are needed to develop a modal and testing hypothesis. The goals of \ac{EDA} is to develop and evaluate Hypothesis, provide recommendations for statistical Techniques to support the analyzing process and provide Methods to collect more Data. It tries to find relationships between elements and get the main features of the data. 
+			\noindent \ac{EDA} tries to generate a understanding of the data and not to proof already stated Hypothesis. This contrasts the Initial Data Analysis (\ac{IDA}) where it is more common to look closely for findings that are needed to develop a modal and testing hypothesis. The goals of \ac{EDA} is to develop and evaluate Hypothesis, provide recommendations for statistical Techniques to support the analysing process and provide Methods to collect more Data. It tries to find relationships between elements and get the main features of the data. 
 			
 			\noindent To achieve these goals it uses different Methods. Descriptive Statistics is used to get a overview of the Data and the structure of the data. It is very important to get a feeling for the data structure to get the most meaningful and efficient results. In \ref{fig:statistical_description} we can see the main statistical characteristics of a dataset, witch contains the top female chess players in the world by the Rating in Standard Chess games. We can see the number of fields, that are filled (count), the median of the value(mean) and the standard deviation(std). It also shows us the Maximum (max) and minimum (min) and the higher, lower and middle quantil (25\%, 75\%, 50\%).
 			
@@ -179,7 +179,7 @@
 					\label{fig:lossAndAccuracy}
 				\end{figure}
 			
-			\subsection{Parameter Study}
+			\subsection{Parameter Study}\label{paramStudy}
 			
 				\noindent A parameter study is a way to find the best parameters for the machine learning model and the data. Some parameters will be chosen an varied isolated from each other to se the effect of them. It also gives insights on what are the extremes of these valued and where the best values lay. In this first parameter study the Learning rate of the model, the batch size of the training data and the epochs will be varied. 
 				
@@ -231,10 +231,96 @@
 						\caption{\label{tab:parameter_study}The Accuracy of the different epochs}
 					\end{center}
 				\end{table}	
+		
+		\subsection{autoML}
+			
+			\noindent AutoML is a Framework to automate tasks in machine learning. The goal is to make it simpler for the user to find the right model and to train it. The training of machine learning models needs a lot of manual work from a programmer, like hyper parameter, feature and the model selection. AutoML tries to lower the manual work by automatising this process. This has the potential to lower the starting barrier for new programmers. It will also automate the process from section \ref{paramStudy}. 
+			
+			AutoML works in four phases. In the first one the data is preprocessed. It looks for highly correlational Data points and eliminates them and identifies variables with low predicting power to improve the dataset. After this Phase, autoML extracts Features and identifies the features with high predictive power. After these preparing stages the model gets tuned. In this Phase autoML identifies good hyperparameters and selects them. After finding a model and tuning its parameters, it will train it and evaluate the best models. At the end it will print a table like in picture \ref{fig:autoML_Table}.
+			
+			After running autoML on the Ball Bearing Dataset, it prints a Table with its results. 
+			
+			\begin{figure} [H]
+				\centering
+				\resizebox{\linewidth} {!} {
+					\includegraphics{res/autoML.png}
+					
+				}
+				\caption{result table of autoML}
+				\label{fig:autoML_Table}
+			\end{figure}
+			
+			The table showes the final ensemble built by AutoPyTorch. The purpose of a final ensemble strategy is to use the strengths of different models and balance the weaknesses of individual models. By combining multiple models, possible overfitting problems can be reduced and prediction accuracy can be improved. Final ensembles are often used in competitions or complex tasks where high accuracy is needed.
+			
+	 
 	 
 	\chapter{Implementation}
-	
-	
+		
+		\section{Parameterstudy with AutoPyTorch}
+		
+		\noindent AutoPyTorch is the python framework of autoML developed by a team at the University of Freiburg in Germany. The goal of this work is to realise an environment, where a Parameter study is performed automatically. For this purpose the AutoPyTorch library is used. Since it needs ubuntu to run, it will run in an Docker Container with the ubuntu Image as base and will clone the repository and install all Dependencies needed to run a automatic Parameter study.
+		
+		\subsection{Dockerfile}
+		
+		\noindent Docker is a technology that creates run environments for Applications. These containers are lightweight and easy to start, stop and pause. To run a Ubuntu Container with AutoPyTorch in it, a Dockerfile needs to be run and started on Docker Desktop, the Docker Engine for Windows Desktop PCs.
+		
+		\noindent This Dockerfile will start on a Ubuntu foundation, install GitHub and AutoPyTorch and all the dependencies. After that the GitHub repository of this Project will be cloned for further development inside of the container. 
+		
+		\noindent In the first 10 lines of the Dockerfile the base image is set to ubuntu:latest and some Arguments are defined. These Arguments are set when starting the container by the compose file or with the \textit{docker run} command. they will be important later in the file. 
+		
+		%TODO: beautify the code or leave it
+		
+		\noindent \lstinputlisting[firstline=1, lastline=10]{res/code/Dockerfile}
+		
+		\noindent In the following lines zsh is installed to make the command-line of the container look better. Also the Linux packages git, gpg and curl are installed and updated. All these three are needed to communicate with the docker container and getting the GitHub repository cloned.
+		
+		\noindent \lstinputlisting[firstnumber=12, firstline=12, lastline=20]{res/code/Dockerfile}
+		
+		\noindent The following code block is installing the GitHub CLI, clones the repository with the autoPyTorch in it and sets up a authentication process for GitHub. The data is taken from the arguments before. All arguments are explained in the Docker Compose section. After the GitHub environment is setup, the correct branch is checked out. 
+		
+		\noindent \lstinputlisting[firstnumber=22, firstline=22, lastline=45]{res/code/Dockerfile}
+		
+		\noindent The ubuntu system is updated and the autoPyTorch library is installed. Before the pip install command can be executed, python, pip and some other dependencies are installed. This part of the Dockerfile can be found on the autoPyTorch Repository (https://github.com/automl/Auto-PyTorch/blob/master/Dockerfile). 
+		
+		\noindent Because this is in a Docker environment some extra dependencies are reqired. In line 67 and 68 libgl1 and libglib2.0.0 are installed. 
+		
+		\noindent \lstinputlisting[firstnumber=48, firstline=48, lastline=68]{res/code/Dockerfile}
+		
+		\noindent After the Dockerfile is finished, the container needs to open a CMD so it doesn't stop in impatiently and a Visual Studio Code instance can be attached.
+		
+		\noindent \lstinputlisting[firstnumber=70, firstline=70, lastline=70]{res/code/Dockerfile}
+		
+		\subsection{Docker Compose}
+		
+		%TODO: Compose
+		
+		Docker provides a possibility to create containers with all the parameters defined in a \textit{.yaml} file. Docker Compose has some extra benefits as well but I will mainly use it as a file where I can save my parameters. 
+		
+		\noindent This Docker Compose file builds a Container from the Folder it is in. It will create an Image named \textit{ubuntu\_python\_env} and an Container from this Image with the same. It also uses the \textit{tty} parameter to make sure that the container does not terminate after an instant so a Visual Studio Code can be attached. 
+		
+		\noindent The Arguments given are used in the Dockerfile. 
+		
+		\begin{itemize}
+			\item gh\_token:  Authenticator token from GitHub. 
+			\begin{enumerate}
+				\item To create this Token, navigate to the GitHub Settings -> Developer Settings -> Personal Access Token
+				\item create a classic Token with the following minimum scopes.
+				\begin{enumerate}
+					\item repo
+					\item workflow
+					\item read:org
+				\end{enumerate}
+				\item Copy the generated Token into the docker Compose file
+			\end{enumerate}
+			\item gh\_email:  E-mail of the Token holder
+			\item gh\_uname:  Name of the Token holder
+			\item gh\_repo\_owner:  To clone the right Repository.
+			\item gh\_rep\_name:  To clone the right Repository.
+			\item gh\_branch:  To clone the right Branch. It will be possible to use the main branch, when the pull request is merged.
+		\end{itemize}
+		
+		\noindent \lstinputlisting{res/code/compose.yaml}
+		
 	\chapter{Summary} % Fazit
 	
 	\frontmatter

@@ -18,6 +18,14 @@
 %	\conclusion
 	\chapter{Introduction} 
 	
+	\noindent The field of machine learning has gained significant traction in recent years. The emergence of Chat-GPT has astonished the world and showcased the immense potential of artificial intelligence. Neural networks have become a fascinating subject for exploring the inner workings of AI. PyTorch, a Python framework, offers a powerful tool for developing neural network models.
+	
+	\noindent In this study, the aim is to document the initial steps in machine learning and PyTorch using a ball bearing dataset and apply a parameter study to the resulting model. In the end the autoML Framework will be utilize, to automate the Parameter study and the detection of the right model. It is intended to support beginners in taking their first steps and giving a starting point to start the journey of developing with neural networks and PyTorch.
+	
+	
+	
+	
+	
 	\chapter{Theoretical Basis}
 	
 		\section{Exploratory Data Analysis} \label{EDA}
@@ -322,6 +330,12 @@
 		\noindent \lstinputlisting{res/code/compose.yaml}
 		
 	\chapter{Summary} % Fazit
+	
+	\noindent This work documents my path from a Dataset, describing the Lifetime of Ball-bearings, to a automated Parameter study of a Neural Network. First, the data was analyzed and visualized through Exploratory Data Analysis. Subsequently, a machine learning network was created using autoPyTorch, which treated the dataset as a classification problem. After conducting a manual parameter study for this model, AutoML was also utilized to automate and evaluate the process. As part of this work, an development environment for AutoML was created within a Docker environment, along with several Python programs implementing the aforementioned steps.
+	
+	\noindent In Summary autoPyTorch is pretty strait forward with its implementation and it has a good Getting Started Guide and explains all steps of its Algorithm pretty good. The Implementation of the Docker Environment to hold all Dependencies for autoML wasn't that easy because the Dependency file in the GitHub Project of autoPyTorch does not include all dependencies. All Dependencies are added to the requirement.txt file into this Project and the other Dependencies into the Dockerfile.
+	
+	\noindent In the future the Dockerfile that generates the autoML Environment could be further expanded to load any autoML Project from GitHub and execute the main file in the project. This work could be used as a basis to build an autoML Project executer in Docker. It also could help newer People to the subject by following the same steps and comprehend the process this work follows. 
 	
 	\frontmatter
 	\printbibliography
